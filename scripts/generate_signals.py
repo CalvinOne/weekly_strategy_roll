@@ -35,7 +35,7 @@ class Instrument:
 
 
 INSTRUMENTS = [
-    Instrument("BTC", "Bitcoin Perpetual", "bybit", "BTCUSDT", 1.0, 2.5),
+    Instrument("BTC", "Bitcoin Spot Proxy", "yahoo", "BTC-USD", 1.0, 2.5),
     Instrument("XAU", "Gold Futures Proxy", "yahoo", "GC=F", 1.25, 2.5),
     Instrument("NASDAQ", "Nasdaq 100 Futures Proxy", "yahoo", "NQ=F", 1.25, 2.5),
     Instrument("USDJPY", "USD/JPY", "yahoo", "JPY=X", 0.75, 2.0),

@@ -31,7 +31,7 @@
 
 | 标的 | 数据源 | 默认止损 | 第一目标 |
 |---|---|---:|---:|
-| BTC | Bybit BTCUSDT perpetual | 1.0% | 2.5R |
+| BTC | Yahoo BTC-USD spot proxy | 1.0% | 2.5R |
 | XAU | Yahoo GC=F proxy | 1.25% | 2.5R |
 | NASDAQ | Yahoo NQ=F proxy | 1.25% | 2.5R |
 | USDJPY | Yahoo JPY=X | 0.75% | 2R |

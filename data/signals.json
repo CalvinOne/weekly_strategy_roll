@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-13T03:32:39.261371+00:00",
+  "generated_at": "2026-06-13T05:05:35.931158+00:00",
   "timezone": "UTC",
   "notes": [
     "Signals are educational and not financial advice.",
@@ -9,30 +9,30 @@
   "instruments": [
     {
       "key": "BTC",
-      "name": "Bitcoin Perpetual",
-      "symbol": "BTCUSDT",
-      "source": "bybit",
+      "name": "Bitcoin Spot Proxy",
+      "symbol": "BTC-USD",
+      "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T03:32:47.786008+00:00",
+      "generated_at": "2026-06-13T05:05:40.660544+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
-        "open": 63306.5,
-        "high": 64371.8,
-        "low": 60614.5,
-        "close": 63547.1
+        "open": 63300.019531,
+        "high": 64340.488281,
+        "low": 60727.199219,
+        "close": 63472.429688
       },
       "previous_week": {
         "dt": "2026-06-01T00:00:00+00:00",
-        "open": 73649.6,
-        "high": 74057.6,
-        "low": 59081.4,
-        "close": 63306.5,
-        "close_pos": 0.282121,
-        "ma20": 72638.675,
-        "ma20_slope": -1515.905
+        "open": 73580.210938,
+        "high": 73969.570312,
+        "low": 59108.917969,
+        "close": 63239.519531,
+        "close_pos": 0.277956,
+        "ma20": 72635.64668,
+        "ma20_slope": -1519.745508
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 32,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -47,19 +47,19 @@
       "trade": {
         "status": "stopped",
         "message": "Initial stop was hit.",
-        "week_open": 63306.5,
-        "entry": 63095.9,
+        "week_open": 63300.019531,
+        "entry": 63088.039062,
         "entry_time": "2026-06-08T00:00:00+00:00",
-        "stop": 63726.859,
-        "first_target": 61518.5025,
+        "stop": 63718.919453,
+        "first_target": 61510.838086,
         "stop_pct": 1.0,
         "target_r": 2.5,
         "take_profit_pct": 0.35,
         "target_hit_at": null,
         "stop_hit_at": "2026-06-08T08:00:00+00:00",
         "breakeven_hit_at": null,
-        "latest_close": 63547.1,
-        "unrealized_r": -0.715102,
+        "latest_close": 63472.429688,
+        "unrealized_r": -0.609292,
         "add_on": false,
         "add_on_note": "No add-on setup."
       }
@@ -70,7 +70,7 @@
       "symbol": "GC=F",
       "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T03:32:55.303170+00:00",
+      "generated_at": "2026-06-13T05:05:45.293483+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -127,7 +127,7 @@
       "symbol": "NQ=F",
       "source": "yahoo",
       "direction": "none",
-      "generated_at": "2026-06-13T03:33:01.992318+00:00",
+      "generated_at": "2026-06-13T05:05:49.610284+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -169,7 +169,7 @@
       "symbol": "JPY=X",
       "source": "yahoo",
       "direction": "long",
-      "generated_at": "2026-06-13T03:33:09.473425+00:00",
+      "generated_at": "2026-06-13T05:05:54.467154+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -226,7 +226,7 @@
       "symbol": "EURUSD=X",
       "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T03:33:16.893141+00:00",
+      "generated_at": "2026-06-13T05:05:59.305849+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
