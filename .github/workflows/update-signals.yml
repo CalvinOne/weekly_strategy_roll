@@ -32,11 +32,14 @@ jobs:
       - name: Generate signals
         run: python scripts/generate_signals.py
 
+      - name: Run strategy comparison
+        run: python scripts/backtest_strategy.py
+
       - name: Build static site
         run: |
           mkdir -p _site/data
           cp index.html styles.css _site/
-          cp data/signals.json _site/data/
+          cp data/*.json _site/data/
           touch _site/.nojekyll
 
       - name: Configure Pages

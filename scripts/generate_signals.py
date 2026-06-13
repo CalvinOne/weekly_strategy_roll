@@ -221,6 +221,62 @@ def direction_from_previous_week(prev: dict[str, Any]) -> str:
     return "none"
 
 
+def previous_h4_bars(all_h4: list[dict[str, Any]], before: datetime, count: int) -> list[dict[str, Any]]:
+    bars = [bar for bar in all_h4 if bar["dt"] < before]
+    return bars[-count:]
+
+
+def h4_atr_pct(all_h4: list[dict[str, Any]], before: datetime, period: int = 14) -> float | None:
+    bars = previous_h4_bars(all_h4, before, period + 1)
+    if len(bars) < period + 1:
+        return None
+
+    ranges = []
+    for index in range(1, len(bars)):
+        bar = bars[index]
+        prev_close = bars[index - 1]["close"]
+        true_range = max(
+            bar["high"] - bar["low"],
+            abs(bar["high"] - prev_close),
+            abs(bar["low"] - prev_close),
+        )
+        ranges.append(true_range / bar["close"] * 100)
+    return sum(ranges[-period:]) / period
+
+
+def resolve_stop_pct(instrument: Instrument, all_h4: list[dict[str, Any]], before: datetime) -> dict[str, Any]:
+    fixed = instrument.stop_pct
+    atr_pct = h4_atr_pct(all_h4, before)
+    if atr_pct is None:
+        return {
+            "fixed_stop_pct": fixed,
+            "atr_stop_pct": None,
+            "effective_stop_pct": fixed,
+            "stop_basis": "fixed",
+        }
+
+    atr_stop_pct = atr_pct * 1.2
+    effective = max(fixed, atr_stop_pct)
+    return {
+        "fixed_stop_pct": fixed,
+        "atr_stop_pct": atr_stop_pct,
+        "effective_stop_pct": effective,
+        "stop_basis": "atr" if effective > fixed else "fixed",
+    }
+
+
+def attach_stop_reference(
+    trade: dict[str, Any],
+    instrument: Instrument,
+    all_h4: list[dict[str, Any]],
+    before: datetime,
+) -> dict[str, Any]:
+    stop_info = resolve_stop_pct(instrument, all_h4, before)
+    trade.update(stop_info)
+    trade["stop_pct"] = stop_info["effective_stop_pct"]
+    return trade
+
+
 def find_current_week_context(weekly: list[dict[str, Any]], h4: list[dict[str, Any]]) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, Any] | None]:
     current_week = week_start(now_utc())
     current_h4 = [bar for bar in h4 if week_start(bar["dt"]) == current_week]
@@ -242,13 +298,20 @@ def find_current_week_context(weekly: list[dict[str, Any]], h4: list[dict[str, A
     return current, current_h4, previous
 
 
-def analyze_trade(instrument: Instrument, direction: str, current: dict[str, Any], current_h4: list[dict[str, Any]]) -> dict[str, Any]:
+def analyze_trade(
+    instrument: Instrument,
+    direction: str,
+    current: dict[str, Any],
+    current_h4: list[dict[str, Any]],
+    all_h4: list[dict[str, Any]],
+) -> dict[str, Any]:
     if direction == "none":
         return {"status": "no_trade", "message": "No weekly direction filter is active."}
     if not current_h4 or current["open"] is None:
         return {"status": "waiting_data", "message": "Waiting for current-week 4H candles."}
 
     week_open = current["open"]
+    reference_time = current_h4[-1]["dt"]
     first_24h_end = current_h4[0]["dt"] + timedelta(hours=24)
     entry_index = None
     for index, bar in enumerate(current_h4):
@@ -263,17 +326,38 @@ def analyze_trade(instrument: Instrument, direction: str, current: dict[str, Any
 
     if entry_index is None:
         status = "waiting_entry" if now_utc() < first_24h_end else "missed_entry"
-        return {
-            "status": status,
-            "message": "Waiting for first 24h 4H confirmation." if status == "waiting_entry" else "No 4H confirmation in the first 24h.",
-            "week_open": week_open,
-        }
+        trade = attach_stop_reference(
+            {
+                "status": status,
+                "message": "Waiting for first 24h 4H confirmation." if status == "waiting_entry" else "No 4H confirmation in the first 24h.",
+                "week_open": week_open,
+            },
+            instrument,
+            all_h4,
+            reference_time,
+        )
+        effective_stop_pct = trade["effective_stop_pct"]
+        reference_price = current_h4[-1]["close"]
+        if direction == "long":
+            trade["stop"] = reference_price * (1 - effective_stop_pct / 100)
+            trade["first_target"] = reference_price * (1 + effective_stop_pct * instrument.target_r / 100)
+        else:
+            trade["stop"] = reference_price * (1 + effective_stop_pct / 100)
+            trade["first_target"] = reference_price * (1 - effective_stop_pct * instrument.target_r / 100)
+        trade["target_r"] = instrument.target_r
+        return trade
 
     entry_bar = current_h4[entry_index]
     entry = entry_bar["close"]
     side = 1 if direction == "long" else -1
-    stop = entry * (1 - instrument.stop_pct / 100) if direction == "long" else entry * (1 + instrument.stop_pct / 100)
-    target = entry * (1 + instrument.stop_pct * instrument.target_r / 100) if direction == "long" else entry * (1 - instrument.stop_pct * instrument.target_r / 100)
+    stop_info = resolve_stop_pct(instrument, all_h4, entry_bar["dt"])
+    effective_stop_pct = stop_info["effective_stop_pct"]
+    stop = entry * (1 - effective_stop_pct / 100) if direction == "long" else entry * (1 + effective_stop_pct / 100)
+    target = (
+        entry * (1 + effective_stop_pct * instrument.target_r / 100)
+        if direction == "long"
+        else entry * (1 - effective_stop_pct * instrument.target_r / 100)
+    )
 
     target_hit_at = None
     stop_hit_at = None
@@ -314,7 +398,7 @@ def analyze_trade(instrument: Instrument, direction: str, current: dict[str, Any
                 break
 
     latest = current_h4[-1]
-    unrealized_r = ((latest["close"] - entry) / entry * 100 * side) / instrument.stop_pct
+    unrealized_r = ((latest["close"] - entry) / entry * 100 * side) / effective_stop_pct
     add_on = False
     add_on_note = "No add-on setup."
     if status == "first_target_hit" and len(current_h4) >= 3:
@@ -339,7 +423,8 @@ def analyze_trade(instrument: Instrument, direction: str, current: dict[str, Any
         "entry_time": entry_bar["dt"].isoformat(),
         "stop": stop,
         "first_target": target,
-        "stop_pct": instrument.stop_pct,
+        **stop_info,
+        "stop_pct": effective_stop_pct,
         "target_r": instrument.target_r,
         "take_profit_pct": instrument.first_take_profit_pct,
         "target_hit_at": target_hit_at.isoformat() if target_hit_at else None,
@@ -350,6 +435,101 @@ def analyze_trade(instrument: Instrument, direction: str, current: dict[str, Any
         "add_on": add_on,
         "add_on_note": add_on_note,
     }
+
+
+def pct_distance(a: float | None, b: float | None) -> float | None:
+    if not a or not b:
+        return None
+    return abs(a - b) / b * 100
+
+
+def build_signal_quality(
+    instrument: Instrument,
+    direction: str,
+    previous: dict[str, Any] | None,
+    current: dict[str, Any],
+    current_h4: list[dict[str, Any]],
+    trade: dict[str, Any],
+) -> dict[str, Any]:
+    warnings: list[str] = []
+    factors: list[dict[str, Any]] = []
+    score = 50
+
+    if direction == "none" or previous is None:
+        return {
+            "score": 35,
+            "label": "No setup",
+            "factors": [{"name": "Direction filter", "value": "No active weekly direction"}],
+            "warnings": ["Weekly filter is neutral; avoid forcing a trade."],
+        }
+
+    ma20 = previous.get("ma20")
+    ma20_slope = previous.get("ma20_slope")
+    close = previous.get("close")
+    if ma20 and close:
+        ma_distance = (close - ma20) / ma20 * 100
+        aligned = (direction == "long" and ma_distance > 0) or (direction == "short" and ma_distance < 0)
+        score += min(abs(ma_distance) * 4, 18) if aligned else -15
+        factors.append({"name": "20WMA distance", "value": f"{ma_distance:.2f}%"})
+
+    if ma20_slope and ma20:
+        slope_pct = ma20_slope / ma20 * 100
+        aligned = (direction == "long" and slope_pct > 0) or (direction == "short" and slope_pct < 0)
+        score += min(abs(slope_pct) * 30, 14) if aligned else -10
+        factors.append({"name": "20WMA slope", "value": f"{slope_pct:.3f}%"})
+
+    close_pos = previous.get("close_pos")
+    if close_pos is not None:
+        if direction == "long":
+            score += 10 if close_pos >= 0.75 else -8 if close_pos < 0.55 else 0
+        else:
+            score += 10 if close_pos <= 0.30 else -8 if close_pos > 0.50 else 0
+        factors.append({"name": "Previous close position", "value": f"{close_pos * 100:.0f}%"})
+
+    entry = trade.get("entry")
+    week_open = trade.get("week_open") or current.get("open")
+    entry_distance = pct_distance(entry, week_open)
+    if entry_distance is not None:
+        factors.append({"name": "Entry distance from weekly open", "value": f"{entry_distance:.2f}%"})
+        effective_stop = trade.get("effective_stop_pct") or instrument.stop_pct
+        if entry_distance > effective_stop * 0.85:
+            score -= 12
+            warnings.append("Entry is far from the weekly open; avoid chasing if manually entering late.")
+        elif entry_distance <= effective_stop * 0.35:
+            score += 6
+
+    effective_stop = trade.get("effective_stop_pct") or instrument.stop_pct
+    if trade.get("atr_stop_pct") is not None and trade.get("stop_basis") == "atr":
+        factors.append(
+            {
+                "name": "Stop model",
+                "value": f"fixed {trade.get('fixed_stop_pct')}%, ATR ref {trade.get('atr_stop_pct'):.2f}%, effective {effective_stop:.2f}%",
+            }
+        )
+
+    current_range = pct_distance(current.get("high"), current.get("low"))
+    if current_range is not None:
+        factors.append({"name": "Current weekly range", "value": f"{current_range:.2f}%"})
+        if current_range > effective_stop * 5:
+            score -= 8
+            warnings.append("This week has already expanded a lot versus the stop size.")
+
+    if trade.get("status") == "stopped":
+        score = min(score, 30)
+        warnings.append("Initial stop has already been hit for the current setup.")
+    elif trade.get("status") == "missed_entry":
+        score = min(score, 40)
+        warnings.append("The first 24h entry window has passed without confirmation.")
+    elif trade.get("status") == "first_target_hit":
+        score += 8
+        warnings.append("First target has already hit; new risk should come only from locked-in profit.")
+
+    if len(current_h4) < 2:
+        warnings.append("Current-week 4H data is still thin.")
+
+    score = max(0, min(100, round(score)))
+    label = "High quality" if score >= 75 else "Medium quality" if score >= 55 else "Low quality"
+    return {"score": score, "label": label, "factors": factors, "warnings": warnings}
 
 
 def round_floats(value: Any) -> Any:
@@ -368,7 +548,8 @@ def build_signal(instrument: Instrument) -> dict[str, Any]:
     weekly, h4 = get_market_data(instrument)
     current, current_h4, previous = find_current_week_context(weekly, h4)
     direction = direction_from_previous_week(previous) if previous else "none"
-    trade = analyze_trade(instrument, direction, current, current_h4)
+    trade = analyze_trade(instrument, direction, current, current_h4, h4)
+    signal_quality = build_signal_quality(instrument, direction, previous, current, current_h4, trade)
 
     return round_floats(
         {
@@ -386,14 +567,19 @@ def build_signal(instrument: Instrument) -> dict[str, Any]:
                 "mode": "aggressive",
                 "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
                 "entry": "First 24h 4H close in the weekly direction.",
-                "risk": f"{instrument.stop_pct}% initial stop, {instrument.target_r}R first target, partial profit then breakeven trailing.",
+                "risk": (
+                    f"Effective stop = max({instrument.stop_pct}% fixed, 1.2x 4H ATR); "
+                    f"{instrument.target_r}R first target; position sizing uses the effective stop to lock account risk."
+                ),
             },
             "parameters": {
                 "initial_stop_pct": instrument.stop_pct,
+                "atr_multiplier": 1.2,
                 "first_target_r": instrument.target_r,
                 "first_take_profit_pct": instrument.first_take_profit_pct,
             },
             "trade": trade,
+            "signal_quality": signal_quality,
         }
     )
 

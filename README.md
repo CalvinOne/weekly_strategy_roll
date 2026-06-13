@@ -41,6 +41,7 @@
 
 ```bash
 python3 scripts/generate_signals.py
+python3 scripts/backtest_strategy.py
 python3 -m http.server 8000
 ```
 
@@ -60,11 +61,24 @@ workflow 会：
 
 - 每周一北京时间 08:05 刷新一次。
 - UTC 工作日每 4 小时刷新一次。
-- 生成 `data/signals.json` 并部署静态站。
+- 生成 `data/signals.json` 和 `data/backtest_report.json` 并部署静态站。
+
+## 策略研究
+
+`scripts/backtest_strategy.py` 会用现有公开行情做轻量历史模拟，对比：
+
+- Baseline：当前首 24h 4H 突破周开盘 + 固定止损。
+- Stricter 4H Confirmation：首 24h 内要求连续两根 4H 确认。
+- Confirm Then Pullback：先确认方向，再等 48h 内回踩/重新站回周开盘。
+- ATR-Aware Stop：当前入场，止损至少使用 1.2 倍近期 4H ATR。
+- Structure-Aware Stop：当前入场，止损放在前 6 根 4H 结构外。
+
+报告会输出每个标的和规则的胜率、平均 R、首目标率、止损率、漏入场率和最大连亏。当前仪表盘也会显示综合评分最高的规则摘要，以及每个当前信号的质量评分和风险提示。
 
 ## 已知限制
 
 - 这是策略监控初版，不是自动下单系统。
 - Yahoo 行情是免费代理数据，XAU/NASDAQ 使用期货代理符号，不等于你券商的真实成交价。
-- 初版加仓提示较简单，只识别首目标后的顺势动量延续。
+- 回测使用简化的 4H K 线内路径假设；同一根 4H 同时触发止损和目标时，保守按先止损计算。
+- 当前加仓提示较简单，只识别首目标后的顺势动量延续。
 - 实盘前需要接入你的真实交易数据源，并进一步优化不同标的的止损、止盈和滚仓规则。

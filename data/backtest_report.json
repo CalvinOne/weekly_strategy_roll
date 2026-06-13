@@ -1,0 +1,593 @@
+{
+  "generated_at": "2026-06-13T05:43:47.637881+00:00",
+  "notes": [
+    "Backtest uses Yahoo public data and simplified intrabar assumptions.",
+    "If stop and target are touched in the same 4H candle, the stop is counted first.",
+    "Results are research inputs, not financial advice."
+  ],
+  "variants": [
+    {
+      "key": "baseline",
+      "name": "Baseline",
+      "entry_rule": "first_break",
+      "stop_rule": "fixed",
+      "description": "Current rule: first 24h 4H close through weekly open, fixed percent stop."
+    },
+    {
+      "key": "strict_entry",
+      "name": "Stricter 4H Confirmation",
+      "entry_rule": "two_closes",
+      "stop_rule": "fixed",
+      "description": "Requires two confirming 4H closes in the first 24h."
+    },
+    {
+      "key": "pullback_entry",
+      "name": "Confirm Then Pullback",
+      "entry_rule": "confirm_pullback",
+      "stop_rule": "fixed",
+      "description": "Requires first-24h confirmation, then a 48h pullback/reclaim near weekly open."
+    },
+    {
+      "key": "atr_stop",
+      "name": "ATR-Aware Stop",
+      "entry_rule": "first_break",
+      "stop_rule": "atr",
+      "description": "Current entry with stop widened to at least 1.2x recent 4H ATR."
+    },
+    {
+      "key": "structure_stop",
+      "name": "Structure-Aware Stop",
+      "entry_rule": "first_break",
+      "stop_rule": "structure",
+      "description": "Current entry with stop outside the previous six 4H candle structure."
+    }
+  ],
+  "selection": {
+    "selected": {
+      "variant": "atr_stop",
+      "variant_name": "ATR-Aware Stop",
+      "trades": 255,
+      "average_r": 0.0913,
+      "total_r": 23.294,
+      "win_rate": 0.4078,
+      "first_target_rate": 0.1961,
+      "stop_rate": 0.5412,
+      "score": 1.2133
+    },
+    "ranking": [
+      {
+        "variant": "atr_stop",
+        "variant_name": "ATR-Aware Stop",
+        "trades": 255,
+        "average_r": 0.0913,
+        "total_r": 23.294,
+        "win_rate": 0.4078,
+        "first_target_rate": 0.1961,
+        "stop_rate": 0.5412,
+        "score": 1.2133
+      },
+      {
+        "variant": "pullback_entry",
+        "variant_name": "Confirm Then Pullback",
+        "trades": 163,
+        "average_r": 0.0487,
+        "total_r": 7.9306,
+        "win_rate": 0.4294,
+        "first_target_rate": 0.135,
+        "stop_rate": 0.5092,
+        "score": -3.1408
+      },
+      {
+        "variant": "baseline",
+        "variant_name": "Baseline",
+        "trades": 255,
+        "average_r": 0.0418,
+        "total_r": 10.6566,
+        "win_rate": 0.3961,
+        "first_target_rate": 0.1882,
+        "stop_rate": 0.5529,
+        "score": -4.5268
+      },
+      {
+        "variant": "structure_stop",
+        "variant_name": "Structure-Aware Stop",
+        "trades": 255,
+        "average_r": 0.0047,
+        "total_r": 1.2072,
+        "win_rate": 0.4275,
+        "first_target_rate": 0.102,
+        "stop_rate": 0.4824,
+        "score": -7.4481
+      },
+      {
+        "variant": "strict_entry",
+        "variant_name": "Stricter 4H Confirmation",
+        "trades": 206,
+        "average_r": 0.0196,
+        "total_r": 4.045,
+        "win_rate": 0.3981,
+        "first_target_rate": 0.1408,
+        "stop_rate": 0.5534,
+        "score": -7.915
+      }
+    ]
+  },
+  "results": [
+    {
+      "instrument": "BTC",
+      "variant": "baseline",
+      "variant_name": "Baseline",
+      "description": "Current rule: first 24h 4H close through weekly open, fixed percent stop.",
+      "metrics": {
+        "weeks_tested": 104,
+        "directional_weeks": 57,
+        "trades": 36,
+        "missed_entries": 21,
+        "win_rate": 0.2778,
+        "average_r": 0.0856,
+        "total_r": 3.0812,
+        "first_target_rate": 0.2778,
+        "stop_rate": 0.6944,
+        "missed_entry_rate": 0.3684,
+        "max_losing_streak": 10
+      }
+    },
+    {
+      "instrument": "BTC",
+      "variant": "strict_entry",
+      "variant_name": "Stricter 4H Confirmation",
+      "description": "Requires two confirming 4H closes in the first 24h.",
+      "metrics": {
+        "weeks_tested": 104,
+        "directional_weeks": 57,
+        "trades": 30,
+        "missed_entries": 27,
+        "win_rate": 0.3,
+        "average_r": 0.2682,
+        "total_r": 8.0449,
+        "first_target_rate": 0.3,
+        "stop_rate": 0.7,
+        "missed_entry_rate": 0.4737,
+        "max_losing_streak": 10
+      }
+    },
+    {
+      "instrument": "BTC",
+      "variant": "pullback_entry",
+      "variant_name": "Confirm Then Pullback",
+      "description": "Requires first-24h confirmation, then a 48h pullback/reclaim near weekly open.",
+      "metrics": {
+        "weeks_tested": 104,
+        "directional_weeks": 57,
+        "trades": 16,
+        "missed_entries": 41,
+        "win_rate": 0.125,
+        "average_r": -0.7078,
+        "total_r": -11.3253,
+        "first_target_rate": 0.125,
+        "stop_rate": 0.8125,
+        "missed_entry_rate": 0.7193,
+        "max_losing_streak": 7
+      }
+    },
+    {
+      "instrument": "BTC",
+      "variant": "atr_stop",
+      "variant_name": "ATR-Aware Stop",
+      "description": "Current entry with stop widened to at least 1.2x recent 4H ATR.",
+      "metrics": {
+        "weeks_tested": 104,
+        "directional_weeks": 57,
+        "trades": 36,
+        "missed_entries": 21,
+        "win_rate": 0.3333,
+        "average_r": 0.373,
+        "total_r": 13.4266,
+        "first_target_rate": 0.3333,
+        "stop_rate": 0.6389,
+        "missed_entry_rate": 0.3684,
+        "max_losing_streak": 10
+      }
+    },
+    {
+      "instrument": "BTC",
+      "variant": "structure_stop",
+      "variant_name": "Structure-Aware Stop",
+      "description": "Current entry with stop outside the previous six 4H candle structure.",
+      "metrics": {
+        "weeks_tested": 104,
+        "directional_weeks": 57,
+        "trades": 36,
+        "missed_entries": 21,
+        "win_rate": 0.2778,
+        "average_r": -0.1646,
+        "total_r": -5.924,
+        "first_target_rate": 0.1389,
+        "stop_rate": 0.6667,
+        "missed_entry_rate": 0.3684,
+        "max_losing_streak": 16
+      }
+    },
+    {
+      "instrument": "XAU",
+      "variant": "baseline",
+      "variant_name": "Baseline",
+      "description": "Current rule: first 24h 4H close through weekly open, fixed percent stop.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 60,
+        "trades": 48,
+        "missed_entries": 12,
+        "win_rate": 0.5208,
+        "average_r": 0.2998,
+        "total_r": 14.391,
+        "first_target_rate": 0.25,
+        "stop_rate": 0.4167,
+        "missed_entry_rate": 0.2,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "XAU",
+      "variant": "strict_entry",
+      "variant_name": "Stricter 4H Confirmation",
+      "description": "Requires two confirming 4H closes in the first 24h.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 60,
+        "trades": 42,
+        "missed_entries": 18,
+        "win_rate": 0.4524,
+        "average_r": 0.0452,
+        "total_r": 1.8989,
+        "first_target_rate": 0.0952,
+        "stop_rate": 0.5,
+        "missed_entry_rate": 0.3,
+        "max_losing_streak": 8
+      }
+    },
+    {
+      "instrument": "XAU",
+      "variant": "pullback_entry",
+      "variant_name": "Confirm Then Pullback",
+      "description": "Requires first-24h confirmation, then a 48h pullback/reclaim near weekly open.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 60,
+        "trades": 33,
+        "missed_entries": 27,
+        "win_rate": 0.4848,
+        "average_r": 0.235,
+        "total_r": 7.7541,
+        "first_target_rate": 0.1515,
+        "stop_rate": 0.4545,
+        "missed_entry_rate": 0.45,
+        "max_losing_streak": 5
+      }
+    },
+    {
+      "instrument": "XAU",
+      "variant": "atr_stop",
+      "variant_name": "ATR-Aware Stop",
+      "description": "Current entry with stop widened to at least 1.2x recent 4H ATR.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 60,
+        "trades": 48,
+        "missed_entries": 12,
+        "win_rate": 0.5417,
+        "average_r": 0.3543,
+        "total_r": 17.0052,
+        "first_target_rate": 0.25,
+        "stop_rate": 0.3958,
+        "missed_entry_rate": 0.2,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "XAU",
+      "variant": "structure_stop",
+      "variant_name": "Structure-Aware Stop",
+      "description": "Current entry with stop outside the previous six 4H candle structure.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 60,
+        "trades": 48,
+        "missed_entries": 12,
+        "win_rate": 0.5625,
+        "average_r": 0.2453,
+        "total_r": 11.7766,
+        "first_target_rate": 0.0833,
+        "stop_rate": 0.3333,
+        "missed_entry_rate": 0.2,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "NASDAQ",
+      "variant": "baseline",
+      "variant_name": "Baseline",
+      "description": "Current rule: first 24h 4H close through weekly open, fixed percent stop.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 69,
+        "trades": 58,
+        "missed_entries": 11,
+        "win_rate": 0.4483,
+        "average_r": 0.2238,
+        "total_r": 12.9829,
+        "first_target_rate": 0.1552,
+        "stop_rate": 0.5172,
+        "missed_entry_rate": 0.1594,
+        "max_losing_streak": 5
+      }
+    },
+    {
+      "instrument": "NASDAQ",
+      "variant": "strict_entry",
+      "variant_name": "Stricter 4H Confirmation",
+      "description": "Requires two confirming 4H closes in the first 24h.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 69,
+        "trades": 50,
+        "missed_entries": 19,
+        "win_rate": 0.44,
+        "average_r": 0.081,
+        "total_r": 4.0523,
+        "first_target_rate": 0.08,
+        "stop_rate": 0.54,
+        "missed_entry_rate": 0.2754,
+        "max_losing_streak": 3
+      }
+    },
+    {
+      "instrument": "NASDAQ",
+      "variant": "pullback_entry",
+      "variant_name": "Confirm Then Pullback",
+      "description": "Requires first-24h confirmation, then a 48h pullback/reclaim near weekly open.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 69,
+        "trades": 43,
+        "missed_entries": 26,
+        "win_rate": 0.4884,
+        "average_r": 0.2558,
+        "total_r": 10.9977,
+        "first_target_rate": 0.093,
+        "stop_rate": 0.4884,
+        "missed_entry_rate": 0.3768,
+        "max_losing_streak": 3
+      }
+    },
+    {
+      "instrument": "NASDAQ",
+      "variant": "atr_stop",
+      "variant_name": "ATR-Aware Stop",
+      "description": "Current entry with stop widened to at least 1.2x recent 4H ATR.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 69,
+        "trades": 58,
+        "missed_entries": 11,
+        "win_rate": 0.4483,
+        "average_r": 0.2201,
+        "total_r": 12.7665,
+        "first_target_rate": 0.1552,
+        "stop_rate": 0.5172,
+        "missed_entry_rate": 0.1594,
+        "max_losing_streak": 5
+      }
+    },
+    {
+      "instrument": "NASDAQ",
+      "variant": "structure_stop",
+      "variant_name": "Structure-Aware Stop",
+      "description": "Current entry with stop outside the previous six 4H candle structure.",
+      "metrics": {
+        "weeks_tested": 125,
+        "directional_weeks": 69,
+        "trades": 58,
+        "missed_entries": 11,
+        "win_rate": 0.4828,
+        "average_r": 0.2219,
+        "total_r": 12.8726,
+        "first_target_rate": 0.1207,
+        "stop_rate": 0.431,
+        "missed_entry_rate": 0.1594,
+        "max_losing_streak": 5
+      }
+    },
+    {
+      "instrument": "USDJPY",
+      "variant": "baseline",
+      "variant_name": "Baseline",
+      "description": "Current rule: first 24h 4H close through weekly open, fixed percent stop.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 80,
+        "trades": 59,
+        "missed_entries": 21,
+        "win_rate": 0.3729,
+        "average_r": -0.0954,
+        "total_r": -5.6285,
+        "first_target_rate": 0.1695,
+        "stop_rate": 0.5593,
+        "missed_entry_rate": 0.2625,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "USDJPY",
+      "variant": "strict_entry",
+      "variant_name": "Stricter 4H Confirmation",
+      "description": "Requires two confirming 4H closes in the first 24h.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 80,
+        "trades": 45,
+        "missed_entries": 35,
+        "win_rate": 0.3778,
+        "average_r": -0.0884,
+        "total_r": -3.977,
+        "first_target_rate": 0.1333,
+        "stop_rate": 0.5556,
+        "missed_entry_rate": 0.4375,
+        "max_losing_streak": 5
+      }
+    },
+    {
+      "instrument": "USDJPY",
+      "variant": "pullback_entry",
+      "variant_name": "Confirm Then Pullback",
+      "description": "Requires first-24h confirmation, then a 48h pullback/reclaim near weekly open.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 80,
+        "trades": 41,
+        "missed_entries": 39,
+        "win_rate": 0.4146,
+        "average_r": 0.0099,
+        "total_r": 0.4066,
+        "first_target_rate": 0.1463,
+        "stop_rate": 0.4878,
+        "missed_entry_rate": 0.4875,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "USDJPY",
+      "variant": "atr_stop",
+      "variant_name": "ATR-Aware Stop",
+      "description": "Current entry with stop widened to at least 1.2x recent 4H ATR.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 80,
+        "trades": 59,
+        "missed_entries": 21,
+        "win_rate": 0.3729,
+        "average_r": -0.0972,
+        "total_r": -5.7344,
+        "first_target_rate": 0.1695,
+        "stop_rate": 0.5593,
+        "missed_entry_rate": 0.2625,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "USDJPY",
+      "variant": "structure_stop",
+      "variant_name": "Structure-Aware Stop",
+      "description": "Current entry with stop outside the previous six 4H candle structure.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 80,
+        "trades": 59,
+        "missed_entries": 21,
+        "win_rate": 0.4068,
+        "average_r": -0.1064,
+        "total_r": -6.2765,
+        "first_target_rate": 0.0847,
+        "stop_rate": 0.5085,
+        "missed_entry_rate": 0.2625,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "EURUSD",
+      "variant": "baseline",
+      "variant_name": "Baseline",
+      "description": "Current rule: first 24h 4H close through weekly open, fixed percent stop.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 75,
+        "trades": 54,
+        "missed_entries": 21,
+        "win_rate": 0.3333,
+        "average_r": -0.2624,
+        "total_r": -14.17,
+        "first_target_rate": 0.1296,
+        "stop_rate": 0.6111,
+        "missed_entry_rate": 0.28,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "EURUSD",
+      "variant": "strict_entry",
+      "variant_name": "Stricter 4H Confirmation",
+      "description": "Requires two confirming 4H closes in the first 24h.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 75,
+        "trades": 39,
+        "missed_entries": 36,
+        "win_rate": 0.3846,
+        "average_r": -0.1532,
+        "total_r": -5.974,
+        "first_target_rate": 0.1538,
+        "stop_rate": 0.5128,
+        "missed_entry_rate": 0.48,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "EURUSD",
+      "variant": "pullback_entry",
+      "variant_name": "Confirm Then Pullback",
+      "description": "Requires first-24h confirmation, then a 48h pullback/reclaim near weekly open.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 75,
+        "trades": 30,
+        "missed_entries": 45,
+        "win_rate": 0.4667,
+        "average_r": 0.0033,
+        "total_r": 0.0975,
+        "first_target_rate": 0.1667,
+        "stop_rate": 0.4667,
+        "missed_entry_rate": 0.6,
+        "max_losing_streak": 3
+      }
+    },
+    {
+      "instrument": "EURUSD",
+      "variant": "atr_stop",
+      "variant_name": "ATR-Aware Stop",
+      "description": "Current entry with stop widened to at least 1.2x recent 4H ATR.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 75,
+        "trades": 54,
+        "missed_entries": 21,
+        "win_rate": 0.3333,
+        "average_r": -0.2624,
+        "total_r": -14.17,
+        "first_target_rate": 0.1296,
+        "stop_rate": 0.6111,
+        "missed_entry_rate": 0.28,
+        "max_losing_streak": 4
+      }
+    },
+    {
+      "instrument": "EURUSD",
+      "variant": "structure_stop",
+      "variant_name": "Structure-Aware Stop",
+      "description": "Current entry with stop outside the previous six 4H candle structure.",
+      "metrics": {
+        "weeks_tested": 145,
+        "directional_weeks": 75,
+        "trades": 54,
+        "missed_entries": 21,
+        "win_rate": 0.3704,
+        "average_r": -0.2082,
+        "total_r": -11.2415,
+        "first_target_rate": 0.0926,
+        "stop_rate": 0.5185,
+        "missed_entry_rate": 0.28,
+        "max_losing_streak": 4
+      }
+    }
+  ],
+  "errors": []
+}

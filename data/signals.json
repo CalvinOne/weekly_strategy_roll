@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-13T05:05:35.931158+00:00",
+  "generated_at": "2026-06-13T05:57:03.197216+00:00",
   "timezone": "UTC",
   "notes": [
     "Signals are educational and not financial advice.",
@@ -13,7 +13,7 @@
       "symbol": "BTC-USD",
       "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T05:05:40.660544+00:00",
+      "generated_at": "2026-06-13T05:57:08.067862+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -37,31 +37,67 @@
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
         "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "1.0% initial stop, 2.5R first target, partial profit then breakeven trailing."
+        "risk": "Effective stop = max(1.0% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
       },
       "parameters": {
         "initial_stop_pct": 1.0,
+        "atr_multiplier": 1.2,
         "first_target_r": 2.5,
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "stopped",
-        "message": "Initial stop was hit.",
+        "status": "active",
+        "message": "Initial position is active.",
         "week_open": 63300.019531,
         "entry": 63088.039062,
         "entry_time": "2026-06-08T00:00:00+00:00",
-        "stop": 63718.919453,
-        "first_target": 61510.838086,
-        "stop_pct": 1.0,
+        "stop": 64677.213873,
+        "first_target": 59115.102035,
+        "fixed_stop_pct": 1.0,
+        "atr_stop_pct": 2.51898,
+        "effective_stop_pct": 2.51898,
+        "stop_basis": "atr",
+        "stop_pct": 2.51898,
         "target_r": 2.5,
         "take_profit_pct": 0.35,
         "target_hit_at": null,
-        "stop_hit_at": "2026-06-08T08:00:00+00:00",
+        "stop_hit_at": null,
         "breakeven_hit_at": null,
         "latest_close": 63472.429688,
-        "unrealized_r": -0.609292,
+        "unrealized_r": -0.241881,
         "add_on": false,
         "add_on_note": "No add-on setup."
+      },
+      "signal_quality": {
+        "score": 98,
+        "label": "High quality",
+        "factors": [
+          {
+            "name": "20WMA distance",
+            "value": "-12.94%"
+          },
+          {
+            "name": "20WMA slope",
+            "value": "-2.092%"
+          },
+          {
+            "name": "Previous close position",
+            "value": "28%"
+          },
+          {
+            "name": "Entry distance from weekly open",
+            "value": "0.33%"
+          },
+          {
+            "name": "Stop model",
+            "value": "fixed 1.0%, ATR ref 2.52%, effective 2.52%"
+          },
+          {
+            "name": "Current weekly range",
+            "value": "5.95%"
+          }
+        ],
+        "warnings": []
       }
     },
     {
@@ -70,7 +106,7 @@
       "symbol": "GC=F",
       "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T05:05:45.293483+00:00",
+      "generated_at": "2026-06-13T05:57:13.349339+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -94,10 +130,11 @@
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
         "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "1.25% initial stop, 2.5R first target, partial profit then breakeven trailing."
+        "risk": "Effective stop = max(1.25% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
       },
       "parameters": {
         "initial_stop_pct": 1.25,
+        "atr_multiplier": 1.2,
         "first_target_r": 2.5,
         "first_take_profit_pct": 0.35
       },
@@ -109,6 +146,10 @@
         "entry_time": "2026-06-08T00:00:00+00:00",
         "stop": 4394.047302,
         "first_target": 4204.181061,
+        "fixed_stop_pct": 1.25,
+        "atr_stop_pct": 1.127739,
+        "effective_stop_pct": 1.25,
+        "stop_basis": "fixed",
         "stop_pct": 1.25,
         "target_r": 2.5,
         "take_profit_pct": 0.35,
@@ -119,6 +160,36 @@
         "unrealized_r": 1.841558,
         "add_on": false,
         "add_on_note": "No add-on setup."
+      },
+      "signal_quality": {
+        "score": 86,
+        "label": "High quality",
+        "factors": [
+          {
+            "name": "20WMA distance",
+            "value": "-9.20%"
+          },
+          {
+            "name": "20WMA slope",
+            "value": "-0.263%"
+          },
+          {
+            "name": "Previous close position",
+            "value": "8%"
+          },
+          {
+            "name": "Entry distance from weekly open",
+            "value": "0.62%"
+          },
+          {
+            "name": "Current weekly range",
+            "value": "8.46%"
+          }
+        ],
+        "warnings": [
+          "This week has already expanded a lot versus the stop size.",
+          "First target has already hit; new risk should come only from locked-in profit."
+        ]
       }
     },
     {
@@ -127,7 +198,7 @@
       "symbol": "NQ=F",
       "source": "yahoo",
       "direction": "none",
-      "generated_at": "2026-06-13T05:05:49.610284+00:00",
+      "generated_at": "2026-06-13T05:57:17.715720+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -151,16 +222,30 @@
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
         "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "1.25% initial stop, 2.5R first target, partial profit then breakeven trailing."
+        "risk": "Effective stop = max(1.25% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
       },
       "parameters": {
         "initial_stop_pct": 1.25,
+        "atr_multiplier": 1.2,
         "first_target_r": 2.5,
         "first_take_profit_pct": 0.35
       },
       "trade": {
         "status": "no_trade",
         "message": "No weekly direction filter is active."
+      },
+      "signal_quality": {
+        "score": 35,
+        "label": "No setup",
+        "factors": [
+          {
+            "name": "Direction filter",
+            "value": "No active weekly direction"
+          }
+        ],
+        "warnings": [
+          "Weekly filter is neutral; avoid forcing a trade."
+        ]
       }
     },
     {
@@ -169,7 +254,7 @@
       "symbol": "JPY=X",
       "source": "yahoo",
       "direction": "long",
-      "generated_at": "2026-06-13T05:05:54.467154+00:00",
+      "generated_at": "2026-06-13T05:57:24.058923+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -193,10 +278,11 @@
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
         "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "0.75% initial stop, 2.0R first target, partial profit then breakeven trailing."
+        "risk": "Effective stop = max(0.75% fixed, 1.2x 4H ATR); 2.0R first target; position sizing uses the effective stop to lock account risk."
       },
       "parameters": {
         "initial_stop_pct": 0.75,
+        "atr_multiplier": 1.2,
         "first_target_r": 2.0,
         "first_take_profit_pct": 0.35
       },
@@ -208,6 +294,10 @@
         "entry_time": "2026-06-08T00:00:00+00:00",
         "stop": 159.136462,
         "first_target": 162.74409,
+        "fixed_stop_pct": 0.75,
+        "atr_stop_pct": 0.159114,
+        "effective_stop_pct": 0.75,
+        "stop_basis": "fixed",
         "stop_pct": 0.75,
         "target_r": 2.0,
         "take_profit_pct": 0.35,
@@ -218,6 +308,33 @@
         "unrealized_r": -0.128068,
         "add_on": false,
         "add_on_note": "No add-on setup."
+      },
+      "signal_quality": {
+        "score": 74,
+        "label": "Medium quality",
+        "factors": [
+          {
+            "name": "20WMA distance",
+            "value": "1.58%"
+          },
+          {
+            "name": "20WMA slope",
+            "value": "0.055%"
+          },
+          {
+            "name": "Previous close position",
+            "value": "93%"
+          },
+          {
+            "name": "Entry distance from weekly open",
+            "value": "0.01%"
+          },
+          {
+            "name": "Current weekly range",
+            "value": "0.68%"
+          }
+        ],
+        "warnings": []
       }
     },
     {
@@ -226,7 +343,7 @@
       "symbol": "EURUSD=X",
       "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T05:05:59.305849+00:00",
+      "generated_at": "2026-06-13T05:57:28.933410+00:00",
       "current_week_start": "2026-06-08T00:00:00+00:00",
       "current_week": {
         "dt": "2026-06-08T00:00:00+00:00",
@@ -250,10 +367,11 @@
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
         "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "0.6% initial stop, 2.0R first target, partial profit then breakeven trailing."
+        "risk": "Effective stop = max(0.6% fixed, 1.2x 4H ATR); 2.0R first target; position sizing uses the effective stop to lock account risk."
       },
       "parameters": {
         "initial_stop_pct": 0.6,
+        "atr_multiplier": 1.2,
         "first_target_r": 2.0,
         "first_take_profit_pct": 0.35
       },
@@ -265,6 +383,10 @@
         "entry_time": "2026-06-08T04:00:00+00:00",
         "stop": 1.158986,
         "first_target": 1.138249,
+        "fixed_stop_pct": 0.6,
+        "atr_stop_pct": 0.235921,
+        "effective_stop_pct": 0.6,
+        "stop_basis": "fixed",
         "stop_pct": 0.6,
         "target_r": 2.0,
         "take_profit_pct": 0.35,
@@ -275,6 +397,35 @@
         "unrealized_r": -0.752236,
         "add_on": false,
         "add_on_note": "No add-on setup."
+      },
+      "signal_quality": {
+        "score": 30,
+        "label": "Low quality",
+        "factors": [
+          {
+            "name": "20WMA distance",
+            "value": "-1.39%"
+          },
+          {
+            "name": "20WMA slope",
+            "value": "-0.037%"
+          },
+          {
+            "name": "Previous close position",
+            "value": "14%"
+          },
+          {
+            "name": "Entry distance from weekly open",
+            "value": "0.05%"
+          },
+          {
+            "name": "Current weekly range",
+            "value": "0.78%"
+          }
+        ],
+        "warnings": [
+          "Initial stop has already been hit for the current setup."
+        ]
       }
     }
   ],

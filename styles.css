@@ -69,6 +69,7 @@ h1 {
 .rules article,
 .calculator,
 .parameter-panel,
+.backtest-panel,
 .roll-guide,
 .card,
 .errors {
@@ -242,6 +243,57 @@ dt {
   color: var(--green);
   font-size: 14px;
   letter-spacing: 0.08em;
+}
+
+.backtest-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+  gap: 18px;
+  margin-bottom: 24px;
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.backtest-panel h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.backtest-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.backtest-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.backtest-metric {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 13px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.backtest-metric span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.backtest-metric strong {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.backtest-note {
+  grid-column: 1 / -1;
+  margin: 4px 0 0 !important;
+  font-size: 13px;
 }
 
 .roll-guide {
@@ -421,6 +473,38 @@ dd {
   line-height: 1.7;
 }
 
+.quality {
+  margin-top: 16px;
+  border: 1px solid rgba(96, 165, 250, 0.18);
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(96, 165, 250, 0.07);
+}
+
+.quality-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.quality-head strong {
+  color: #bfdbfe;
+  text-align: right;
+}
+
+.quality p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.quality-warning {
+  color: #fde68a !important;
+}
+
 .position {
   margin-top: 16px;
   border: 1px solid rgba(45, 212, 191, 0.18);
@@ -481,6 +565,7 @@ dd {
   .rules,
   .calculator,
   .parameter-panel,
+  .backtest-panel,
   .cards {
     grid-template-columns: 1fr;
   }
@@ -495,6 +580,10 @@ dd {
 
   .position-grid {
     grid-template-columns: 1fr;
+  }
+
+  .backtest-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .guide-grid {

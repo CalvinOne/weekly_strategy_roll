@@ -124,7 +124,7 @@
         <div>
           <p class="eyebrow">Position Sizing</p>
           <h2>按风险反推仓位</h2>
-          <p>输入账户权益、单笔本金风险和杠杆后，每个标的会按自己的止损百分比自动计算建议名义仓位和所需保证金。</p>
+          <p>输入账户权益、单笔本金风险和杠杆后，每个标的会按有效止损（固定止损与 1.2×4H ATR 取较大值）反推仓位，确保触发止损时账户亏损不超过设定比例。</p>
         </div>
         <label>
           账户权益 USDT
@@ -147,6 +147,15 @@
           <p>这些是当前进攻模式的默认止损，不代表必须用固定百分比止损；实盘可结合 4H 结构和 ATR 微调。</p>
         </div>
         <div id="parameterTable" class="parameter-table"></div>
+      </section>
+
+      <section class="backtest-panel">
+        <div>
+          <p class="eyebrow">Strategy Research</p>
+          <h2>历史规则对比摘要</h2>
+          <p>每次部署会用公开历史数据比较基线、严格入场、回踩入场、ATR 止损和结构止损。结果只作为优化参考，不直接代表未来收益。</p>
+        </div>
+        <div id="backtestSummary" class="backtest-summary">等待回测摘要...</div>
       </section>
 
       <section class="roll-guide">
@@ -234,6 +243,7 @@
           </div>
         </dl>
         <div class="meta"></div>
+        <div class="quality"></div>
         <div class="position">
           <h3>仓位建议</h3>
           <div class="position-grid">
@@ -252,6 +262,7 @@
 
     <script>
       let latestData = null;
+      let latestBacktest = null;
       const AUTH_HASH = "7f154516b0d91c14e9aa0a3efa0f2183482fbcaf7ae7fe5a46afbdba00898b3a";
       const AUTH_STORAGE_KEY = "weeklyStrategyRollAuth";
 
@@ -352,6 +363,20 @@
         };
       }
 
+      function getEffectiveStopPct(trade, item) {
+        return Number(trade.effective_stop_pct || trade.stop_pct || item.parameters?.initial_stop_pct) || 0;
+      }
+
+      function formatStopSummary(trade, item) {
+        const fixed = item.parameters?.initial_stop_pct;
+        const atr = trade.atr_stop_pct;
+        const effective = getEffectiveStopPct(trade, item);
+        const parts = [`固定 ${fmtNumber(fixed)}%`];
+        if (atr !== null && atr !== undefined) parts.push(`ATR参考 ${fmtNumber(atr)}%`);
+        parts.push(`有效 ${fmtNumber(effective)}%`);
+        return parts.join(" / ");
+      }
+
       function calculatePosition(stopPct) {
         const { equity, riskPct, leverage } = getSizingInputs();
         if (!equity || !riskPct || !stopPct || !leverage) return null;
@@ -385,7 +410,7 @@
 
       function renderPosition(card, item) {
         const trade = item.trade || {};
-        const stopPct = Number(trade.stop_pct || item.parameters?.initial_stop_pct);
+        const stopPct = getEffectiveStopPct(trade, item);
         const sizing = calculatePosition(stopPct);
         const riskEl = card.querySelector('[data-position="riskAmount"]');
         const notionalEl = card.querySelector('[data-position="notional"]');
@@ -395,6 +420,9 @@
         const basePriceEl = card.querySelector('[data-position="basePrice"]');
         const formulaEl = card.querySelector('[data-position="formula"]');
         const levels = calculateReferenceLevels(item, trade, stopPct, Number(trade.target_r || item.parameters?.first_target_r));
+        const stopPrice = trade.stop ?? levels?.stopPrice;
+        const targetPrice = trade.first_target ?? levels?.targetPrice;
+        const basePrice = trade.entry ?? levels?.basePrice;
 
         if (!sizing) {
           riskEl.textContent = "-";
@@ -403,19 +431,36 @@
           stopPriceEl.textContent = "-";
           targetPriceEl.textContent = "-";
           basePriceEl.textContent = "-";
-          formulaEl.textContent = "等待输入账户权益、风险比例和止损百分比。";
+          formulaEl.textContent = "等待输入账户权益、风险比例和有效止损百分比。";
           return;
         }
 
         riskEl.textContent = `${fmtNumber(sizing.riskAmount)}U`;
         notionalEl.textContent = `${fmtNumber(sizing.notional)}U`;
         marginEl.textContent = `${fmtNumber(sizing.margin)}U`;
-        stopPriceEl.textContent = levels ? fmtNumber(levels.stopPrice) : "-";
-        targetPriceEl.textContent = levels ? fmtNumber(levels.targetPrice) : "-";
-        basePriceEl.textContent = levels ? fmtNumber(levels.basePrice) : "-";
-        formulaEl.textContent = levels
-          ? `公式：名义仓位 = 账户权益 × ${sizing.riskPct}% / ${sizing.stopPct}%；止损/目标按${trade.entry ? "入场价" : "参考价"}计算。`
-          : `公式：名义仓位 = 账户权益 × ${sizing.riskPct}% / ${sizing.stopPct}%；当前无方向时不计算止损价。`;
+        stopPriceEl.textContent = stopPrice ? fmtNumber(stopPrice) : "-";
+        targetPriceEl.textContent = targetPrice ? fmtNumber(targetPrice) : "-";
+        basePriceEl.textContent = basePrice ? fmtNumber(basePrice) : "-";
+        formulaEl.textContent = `公式：名义仓位 = 账户权益 × ${sizing.riskPct}% / 有效止损 ${fmtNumber(sizing.stopPct)}%；触发止损时账户最大亏损锁定在 ${sizing.riskPct}%。${formatStopSummary(trade, item)}`;
+      }
+
+      function renderQuality(card, item) {
+        const quality = item.signal_quality || {};
+        const qualityEl = card.querySelector(".quality");
+        const warnings = quality.warnings?.length ? quality.warnings.join("；") : "暂无额外风险提示。";
+        const factors = (quality.factors || [])
+          .slice(0, 3)
+          .map((factor) => `${factor.name}: ${factor.value}`)
+          .join(" | ");
+
+        qualityEl.innerHTML = `
+          <div class="quality-head">
+            <span>信号质量</span>
+            <strong>${quality.score ?? "-"} / 100 · ${quality.label || "-"}</strong>
+          </div>
+          <p>${factors || "暂无评分因子。"}</p>
+          <p class="quality-warning">${warnings}</p>
+        `;
       }
 
       function renderCard(item) {
@@ -439,19 +484,58 @@
 
         const meta = [
           `本周 4H 数量：${item.h4_candles_this_week}`,
-          `建议止损：${item.parameters?.initial_stop_pct ? `${item.parameters.initial_stop_pct}%` : "-"}`,
+          `止损模型：${formatStopSummary(trade, item)}`,
           `第一目标：${item.parameters?.first_target_r ? `${item.parameters.first_target_r}R` : "-"}`,
           `入场时间：${fmtTime(trade.entry_time)}`,
           `首目标时间：${fmtTime(trade.target_hit_at)}`,
           `止损时间：${fmtTime(trade.stop_hit_at)}`,
         ];
         card.querySelector(".meta").textContent = meta.join(" | ");
+        renderQuality(card, item);
         renderPosition(card, item);
 
         const addon = card.querySelector(".addon");
         addon.textContent = trade.add_on ? `加仓提示：${trade.add_on_note}` : trade.add_on_note || "暂无加仓提示。";
         addon.classList.toggle("addon-hot", Boolean(trade.add_on));
         return card;
+      }
+
+      function pct(value) {
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return "-";
+        return `${(Number(value) * 100).toFixed(1)}%`;
+      }
+
+      function renderBacktestSummary(report) {
+        const summary = document.getElementById("backtestSummary");
+        const selected = report?.selection?.selected;
+        const ranking = report?.selection?.ranking || [];
+        if (!selected) {
+          summary.textContent = "暂无可用回测摘要。";
+          return;
+        }
+
+        const cards = [
+          ["当前优选", selected.variant_name],
+          ["平均 R", fmtNumber(selected.average_r)],
+          ["胜率", pct(selected.win_rate)],
+          ["首目标率", pct(selected.first_target_rate)],
+          ["止损率", pct(selected.stop_rate)],
+          ["样本交易", selected.trades],
+        ];
+
+        summary.replaceChildren(
+          ...cards.map(([label, value]) => {
+            const item = document.createElement("div");
+            item.className = "backtest-metric";
+            item.innerHTML = `<span>${label}</span><strong>${value}</strong>`;
+            return item;
+          }),
+        );
+
+        const rankingNote = document.createElement("p");
+        rankingNote.className = "backtest-note";
+        rankingNote.textContent = `规则排名：${ranking.map((item) => `${item.variant_name} ${fmtNumber(item.average_r)}R`).join(" / ")}`;
+        summary.appendChild(rankingNote);
       }
 
       function renderParameters(data) {
@@ -485,6 +569,8 @@
         const response = await fetch(`./data/signals.json?t=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) throw new Error(`数据加载失败：${response.status}`);
         const data = await response.json();
+        const backtestResponse = await fetch(`./data/backtest_report.json?t=${Date.now()}`, { cache: "no-store" });
+        latestBacktest = backtestResponse.ok ? await backtestResponse.json() : null;
         latestData = data;
         document.getElementById("generatedAt").textContent = fmtTime(data.generated_at);
         setRefreshState(false, isManual ? "刷新完成，已读取最新信号数据。" : "点击后会重新读取最新生成的信号数据。");
@@ -499,6 +585,7 @@
 
         const cards = document.getElementById("cards");
         renderParameters(data);
+        renderBacktestSummary(latestBacktest);
         cards.replaceChildren(...(data.instruments || []).map(renderCard));
       }
 
