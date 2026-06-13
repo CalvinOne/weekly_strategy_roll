@@ -1,0 +1,70 @@
+# Weekly Trend Roll Strategy Dashboard
+
+这是一个初版周线趋势滚仓仪表盘，用于每周扫描：
+
+- BTC
+- XAU
+- NASDAQ
+- USDJPY
+- EURUSD
+
+## 策略逻辑
+
+方向过滤：
+
+- 多头：上一周收盘在 20WMA 上方，20WMA 上行，上一周收在自身振幅上 30%。
+- 空头：上一周收盘在 20WMA 下方，且上一周不是强收。
+
+入场：
+
+- 周开盘后 24 小时内，等待第一根 4H 收盘价站在周开盘价方向内。
+- 多头：4H 收盘 > 本周开盘价。
+- 空头：4H 收盘 < 本周开盘价。
+
+进攻模式：
+
+- 首仓使用固定价格止损。
+- 到第一目标后建议平 35%，剩余仓位止损推到保本。
+- 加仓只允许使用浮盈，不扩大本金风险。
+
+## 默认参数
+
+| 标的 | 数据源 | 默认止损 | 第一目标 |
+|---|---|---:|---:|
+| BTC | Bybit BTCUSDT perpetual | 1.0% | 2.5R |
+| XAU | Yahoo GC=F proxy | 1.25% | 2.5R |
+| NASDAQ | Yahoo NQ=F proxy | 1.25% | 2.5R |
+| USDJPY | Yahoo JPY=X | 0.75% | 2R |
+| EURUSD | Yahoo EURUSD=X | 0.6% | 2R |
+
+## 本地运行
+
+```bash
+python3 scripts/generate_signals.py
+python3 -m http.server 8000
+```
+
+然后打开：
+
+```text
+http://localhost:8000
+```
+
+## GitHub Pages 部署
+
+1. 推送代码到 GitHub 仓库。
+2. 在仓库 Settings -> Pages 中选择 GitHub Actions。
+3. 手动运行 `Update Weekly Strategy Dashboard` workflow，或等待定时任务。
+
+workflow 会：
+
+- 每周一北京时间 08:05 刷新一次。
+- UTC 工作日每 4 小时刷新一次。
+- 生成 `data/signals.json` 并部署静态站。
+
+## 已知限制
+
+- 这是策略监控初版，不是自动下单系统。
+- Yahoo 行情是免费代理数据，XAU/NASDAQ 使用期货代理符号，不等于你券商的真实成交价。
+- 初版加仓提示较简单，只识别首目标后的顺势动量延续。
+- 实盘前需要接入你的真实交易数据源，并进一步优化不同标的的止损、止盈和滚仓规则。

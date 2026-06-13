@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weekly Trend Roll Strategy</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .auth-gate {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      body > [hidden] {
+        display: none !important;
+      }
+
+      .auth-card {
+        width: min(420px, 100%);
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 24px;
+        background: rgba(17, 24, 39, 0.92);
+        box-shadow: 0 18px 70px rgba(0, 0, 0, 0.32);
+      }
+
+      .auth-card h1 {
+        margin: 0 0 12px;
+        font-size: 28px;
+      }
+
+      .auth-card p {
+        margin: 0 0 20px;
+        color: #91a0b5;
+        line-height: 1.6;
+      }
+
+      .auth-card label {
+        display: grid;
+        gap: 8px;
+        color: #e5edf7;
+        font-weight: 700;
+      }
+
+      .auth-card input,
+      .auth-card button {
+        width: 100%;
+        border: 0;
+        border-radius: 14px;
+        padding: 13px 14px;
+        font: inherit;
+      }
+
+      .auth-card input {
+        margin-bottom: 14px;
+        background: #090d14;
+        color: #e5edf7;
+        outline: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .auth-card button {
+        cursor: pointer;
+        background: #2dd4bf;
+        color: #071014;
+        font-weight: 800;
+      }
+
+      .auth-error {
+        min-height: 20px;
+        margin-top: 12px;
+        color: #fb7185;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="authGate" class="auth-gate">
+      <form id="authForm" class="auth-card">
+        <h1>访问验证</h1>
+        <p>请输入临时密码查看周线趋势滚仓仪表盘。</p>
+        <label>
+          临时密码
+          <input id="authPassword" type="password" autocomplete="current-password" autofocus />
+        </label>
+        <button type="submit">进入</button>
+        <div id="authError" class="auth-error" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <main id="dashboard" class="shell" hidden>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Aggressive Weekly Trend System</p>
+          <h1>周线趋势滚仓仪表盘</h1>
+          <p class="subtitle">
+            用周线确定方向，用周开盘后的 4H 确认入场；首仓小风险试错，到第一目标后部分止盈并观察滚仓机会。
+          </p>
+        </div>
+        <div class="hero-card">
+          <span>更新时间</span>
+          <strong id="generatedAt">加载中...</strong>
+          <small>所有时间默认按 UTC 生成；北京时间 = UTC + 8。</small>
+          <button id="refreshButton" class="refresh-button" type="button">手动刷新数据</button>
+          <small id="refreshStatus" class="refresh-status">点击后会重新读取最新生成的信号数据。</small>
+        </div>
+      </section>
+
+      <section class="rules">
+        <article>
+          <h2>方向过滤</h2>
+          <p>多头：上一周收盘在 20WMA 上方，20WMA 上行，上一周收在自身振幅上 30%。</p>
+          <p>空头：上一周收盘在 20WMA 下方，且上一周不是强收。</p>
+        </article>
+        <article>
+          <h2>进攻模式</h2>
+          <p>周开盘后 24h 内等待 4H 收盘确认；到第一目标后平 35%，剩余仓位止损推保本。</p>
+          <p>加仓只允许使用浮盈，不扩大本金风险。</p>
+        </article>
+      </section>
+
+      <section class="calculator" aria-label="仓位反推计算器">
+        <div>
+          <p class="eyebrow">Position Sizing</p>
+          <h2>按风险反推仓位</h2>
+          <p>输入账户权益、单笔本金风险和杠杆后，每个标的会按自己的止损百分比自动计算建议名义仓位和所需保证金。</p>
+        </div>
+        <label>
+          账户权益 USDT
+          <input id="accountEquity" type="number" min="0" step="100" />
+        </label>
+        <label>
+          单笔风险 %
+          <input id="riskPct" type="number" min="0" step="0.1" value="2" />
+        </label>
+        <label>
+          杠杆倍数
+          <input id="leverage" type="number" min="1" step="1" value="10" />
+        </label>
+      </section>
+
+      <section class="parameter-panel">
+        <div>
+          <p class="eyebrow">Risk Parameters</p>
+          <h2>建议初始止损参数</h2>
+          <p>这些是当前进攻模式的默认止损，不代表必须用固定百分比止损；实盘可结合 4H 结构和 ATR 微调。</p>
+        </div>
+        <div id="parameterTable" class="parameter-table"></div>
+      </section>
+
+      <section class="roll-guide">
+        <div class="guide-head">
+          <p class="eyebrow">Rolling Playbook</p>
+          <h2>滚仓执行手册</h2>
+          <p>目标不是每笔都吃满，而是用小本金风险换趋势暴露；普通周小赚小亏，趋势周尽量让盈利扩张。</p>
+        </div>
+        <div class="guide-grid">
+          <article>
+            <span>01</span>
+            <h3>首仓试错</h3>
+            <p>只在周线方向和 4H 确认都成立后开首仓。首仓风险按账户权益固定，进攻模式建议单笔本金风险 1%-2%。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>首目标处理</h3>
+            <p>到第一目标后平 30%-50%，先把一部分利润落袋。剩余仓位止损推到入场价或小盈利位置。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>只用浮盈加仓</h3>
+            <p>加仓资金来自已锁定利润或浮盈，不扩大本金风险。加仓失败最多吐回部分利润，不能让整笔交易从盈利变成大亏。</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>加仓触发</h3>
+            <p>优先等 4H 回踩不破结构后继续顺势，或突破后重新站稳。不要在连续大阳/大阴后追第三、第四根。</p>
+          </article>
+          <article>
+            <span>05</span>
+            <h3>移动止损</h3>
+            <p>趋势延续时，用最近 4H 结构低点/高点或日线结构保护利润。价格走出 4R 以上后，至少保证整笔交易不亏。</p>
+          </article>
+          <article>
+            <span>06</span>
+            <h3>禁止事项</h3>
+            <p>不在亏损状态下加仓，不因为想回本而扩大仓位，不同时重仓高度相关标的，不在重大数据前临时加杠杆。</p>
+          </article>
+        </div>
+        <div class="guide-note">
+          <strong>核心原则：</strong>
+          首仓决定你能不能活下来，滚仓决定你能不能做大。先保护本金，再让趋势替你放大利润。
+        </div>
+      </section>
+
+      <div id="errors" class="errors" hidden></div>
+      <section id="cards" class="cards" aria-live="polite"></section>
+    </main>
+
+    <template id="cardTemplate">
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <p class="symbol"></p>
+            <h2 class="name"></h2>
+          </div>
+          <span class="badge"></span>
+        </div>
+        <div class="status"></div>
+        <dl class="grid">
+          <div>
+            <dt>周开盘</dt>
+            <dd data-field="weekOpen">-</dd>
+          </div>
+          <div>
+            <dt>入场</dt>
+            <dd data-field="entry">-</dd>
+          </div>
+          <div>
+            <dt>止损</dt>
+            <dd data-field="stop">-</dd>
+          </div>
+          <div>
+            <dt>第一目标</dt>
+            <dd data-field="target">-</dd>
+          </div>
+          <div>
+            <dt>最新价</dt>
+            <dd data-field="latest">-</dd>
+          </div>
+          <div>
+            <dt>浮动 R</dt>
+            <dd data-field="r">-</dd>
+          </div>
+        </dl>
+        <div class="meta"></div>
+        <div class="position">
+          <h3>仓位建议</h3>
+          <div class="position-grid">
+            <span>最大亏损 <strong data-position="riskAmount">-</strong></span>
+            <span>名义仓位 <strong data-position="notional">-</strong></span>
+            <span>所需保证金 <strong data-position="margin">-</strong></span>
+            <span>参考止损价 <strong data-position="stopPrice">-</strong></span>
+            <span>参考目标价 <strong data-position="targetPrice">-</strong></span>
+            <span>计算基准价 <strong data-position="basePrice">-</strong></span>
+          </div>
+          <p data-position="formula">-</p>
+        </div>
+        <div class="addon"></div>
+      </article>
+    </template>
+
+    <script>
+      let latestData = null;
+      const AUTH_HASH = "7f154516b0d91c14e9aa0a3efa0f2183482fbcaf7ae7fe5a46afbdba00898b3a";
+      const AUTH_STORAGE_KEY = "weeklyStrategyRollAuth";
+
+      const statusLabels = {
+        no_trade: "本周不做",
+        waiting_data: "等待数据",
+        waiting_entry: "等待 4H 确认",
+        missed_entry: "错过入场",
+        active: "持仓中",
+        stopped: "已止损",
+        first_target_hit: "首目标已到",
+        protected_exit: "保本退出",
+      };
+
+      const directionLabels = {
+        long: "只做多",
+        short: "只做空",
+        none: "不做",
+      };
+
+      async function sha256(value) {
+        const bytes = new TextEncoder().encode(value);
+        const digest = await crypto.subtle.digest("SHA-256", bytes);
+        return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+      }
+
+      function handleLoadError(error) {
+        document.getElementById("generatedAt").textContent = "加载失败";
+        setRefreshState(false, `加载失败：${error.message}`);
+        const errors = document.getElementById("errors");
+        errors.hidden = false;
+        errors.textContent = error.message;
+      }
+
+      function unlockDashboard() {
+        document.getElementById("authGate").hidden = true;
+        document.getElementById("dashboard").hidden = false;
+        load().catch(handleLoadError);
+      }
+
+      function initializeAuthGate() {
+        try {
+          if (localStorage.getItem(AUTH_STORAGE_KEY) === AUTH_HASH) {
+            unlockDashboard();
+            return;
+          }
+        } catch {
+          // Private browsing or strict storage settings can disable localStorage.
+        }
+
+        document.getElementById("authForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const error = document.getElementById("authError");
+          const password = document.getElementById("authPassword").value;
+
+          if (!crypto?.subtle) {
+            error.textContent = "当前浏览器不支持本地密码校验，请换用现代浏览器。";
+            return;
+          }
+
+          if ((await sha256(password)) !== AUTH_HASH) {
+            error.textContent = "密码不正确。";
+            return;
+          }
+
+          try {
+            localStorage.setItem(AUTH_STORAGE_KEY, AUTH_HASH);
+          } catch {
+            // Continue without remembering auth if storage is unavailable.
+          }
+          error.textContent = "";
+          unlockDashboard();
+        });
+      }
+
+      function fmtNumber(value) {
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return "-";
+        const number = Number(value);
+        if (Math.abs(number) >= 1000) return number.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        if (Math.abs(number) >= 10) return number.toLocaleString(undefined, { maximumFractionDigits: 3 });
+        return number.toLocaleString(undefined, { maximumFractionDigits: 5 });
+      }
+
+      function fmtTime(value) {
+        if (!value) return "-";
+        return new Date(value).toLocaleString("zh-CN", { hour12: false });
+      }
+
+      function setText(card, field, value) {
+        card.querySelector(`[data-field="${field}"]`).textContent = value;
+      }
+
+      function getSizingInputs() {
+        return {
+          equity: Number(document.getElementById("accountEquity").value) || 0,
+          riskPct: Number(document.getElementById("riskPct").value) || 0,
+          leverage: Number(document.getElementById("leverage").value) || 1,
+        };
+      }
+
+      function calculatePosition(stopPct) {
+        const { equity, riskPct, leverage } = getSizingInputs();
+        if (!equity || !riskPct || !stopPct || !leverage) return null;
+        const riskAmount = equity * (riskPct / 100);
+        const notional = riskAmount / (stopPct / 100);
+        const margin = notional / leverage;
+        return { riskAmount, notional, margin, leverage, stopPct, riskPct };
+      }
+
+      function getReferencePrice(item, trade) {
+        return (
+          Number(trade.entry) ||
+          Number(trade.latest_close) ||
+          Number(item.current_week?.close) ||
+          Number(trade.week_open) ||
+          Number(item.current_week?.open) ||
+          0
+        );
+      }
+
+      function calculateReferenceLevels(item, trade, stopPct, targetR) {
+        const basePrice = getReferencePrice(item, trade);
+        if (!basePrice || !stopPct || item.direction === "none") return null;
+        const isLong = item.direction === "long";
+        return {
+          basePrice,
+          stopPrice: isLong ? basePrice * (1 - stopPct / 100) : basePrice * (1 + stopPct / 100),
+          targetPrice: isLong ? basePrice * (1 + (stopPct * targetR) / 100) : basePrice * (1 - (stopPct * targetR) / 100),
+        };
+      }
+
+      function renderPosition(card, item) {
+        const trade = item.trade || {};
+        const stopPct = Number(trade.stop_pct || item.parameters?.initial_stop_pct);
+        const sizing = calculatePosition(stopPct);
+        const riskEl = card.querySelector('[data-position="riskAmount"]');
+        const notionalEl = card.querySelector('[data-position="notional"]');
+        const marginEl = card.querySelector('[data-position="margin"]');
+        const stopPriceEl = card.querySelector('[data-position="stopPrice"]');
+        const targetPriceEl = card.querySelector('[data-position="targetPrice"]');
+        const basePriceEl = card.querySelector('[data-position="basePrice"]');
+        const formulaEl = card.querySelector('[data-position="formula"]');
+        const levels = calculateReferenceLevels(item, trade, stopPct, Number(trade.target_r || item.parameters?.first_target_r));
+
+        if (!sizing) {
+          riskEl.textContent = "-";
+          notionalEl.textContent = "-";
+          marginEl.textContent = "-";
+          stopPriceEl.textContent = "-";
+          targetPriceEl.textContent = "-";
+          basePriceEl.textContent = "-";
+          formulaEl.textContent = "等待输入账户权益、风险比例和止损百分比。";
+          return;
+        }
+
+        riskEl.textContent = `${fmtNumber(sizing.riskAmount)}U`;
+        notionalEl.textContent = `${fmtNumber(sizing.notional)}U`;
+        marginEl.textContent = `${fmtNumber(sizing.margin)}U`;
+        stopPriceEl.textContent = levels ? fmtNumber(levels.stopPrice) : "-";
+        targetPriceEl.textContent = levels ? fmtNumber(levels.targetPrice) : "-";
+        basePriceEl.textContent = levels ? fmtNumber(levels.basePrice) : "-";
+        formulaEl.textContent = levels
+          ? `公式：名义仓位 = 账户权益 × ${sizing.riskPct}% / ${sizing.stopPct}%；止损/目标按${trade.entry ? "入场价" : "参考价"}计算。`
+          : `公式：名义仓位 = 账户权益 × ${sizing.riskPct}% / ${sizing.stopPct}%；当前无方向时不计算止损价。`;
+      }
+
+      function renderCard(item) {
+        const template = document.getElementById("cardTemplate");
+        const card = template.content.firstElementChild.cloneNode(true);
+        const trade = item.trade || {};
+        const status = trade.status || "no_trade";
+
+        card.classList.add(`status-${status}`);
+        card.querySelector(".symbol").textContent = item.key;
+        card.querySelector(".name").textContent = `${item.name} · ${item.symbol}`;
+        card.querySelector(".badge").textContent = directionLabels[item.direction] || item.direction;
+        card.querySelector(".status").textContent = `${statusLabels[status] || status}：${trade.message || ""}`;
+
+        setText(card, "weekOpen", fmtNumber(trade.week_open || item.current_week?.open));
+        setText(card, "entry", fmtNumber(trade.entry));
+        setText(card, "stop", fmtNumber(trade.stop));
+        setText(card, "target", fmtNumber(trade.first_target));
+        setText(card, "latest", fmtNumber(trade.latest_close || item.current_week?.close));
+        setText(card, "r", trade.unrealized_r === undefined ? "-" : `${fmtNumber(trade.unrealized_r)}R`);
+
+        const meta = [
+          `本周 4H 数量：${item.h4_candles_this_week}`,
+          `建议止损：${item.parameters?.initial_stop_pct ? `${item.parameters.initial_stop_pct}%` : "-"}`,
+          `第一目标：${item.parameters?.first_target_r ? `${item.parameters.first_target_r}R` : "-"}`,
+          `入场时间：${fmtTime(trade.entry_time)}`,
+          `首目标时间：${fmtTime(trade.target_hit_at)}`,
+          `止损时间：${fmtTime(trade.stop_hit_at)}`,
+        ];
+        card.querySelector(".meta").textContent = meta.join(" | ");
+        renderPosition(card, item);
+
+        const addon = card.querySelector(".addon");
+        addon.textContent = trade.add_on ? `加仓提示：${trade.add_on_note}` : trade.add_on_note || "暂无加仓提示。";
+        addon.classList.toggle("addon-hot", Boolean(trade.add_on));
+        return card;
+      }
+
+      function renderParameters(data) {
+        const table = document.getElementById("parameterTable");
+        const rows = (data.instruments || []).map((item) => {
+          const params = item.parameters || {};
+          const row = document.createElement("div");
+          row.className = "parameter-row";
+          row.innerHTML = `
+            <strong>${item.key}</strong>
+            <span>${item.name}</span>
+            <span>初始止损：${fmtNumber(params.initial_stop_pct)}%</span>
+            <span>第一目标：${fmtNumber(params.first_target_r)}R</span>
+            <span>首目标平仓：${fmtNumber((params.first_take_profit_pct || 0) * 100)}%</span>
+          `;
+          return row;
+        });
+        table.replaceChildren(...rows);
+      }
+
+      function setRefreshState(isLoading, message) {
+        const button = document.getElementById("refreshButton");
+        const status = document.getElementById("refreshStatus");
+        button.disabled = isLoading;
+        button.textContent = isLoading ? "刷新中..." : "手动刷新数据";
+        status.textContent = message;
+      }
+
+      async function load(isManual = false) {
+        if (isManual) setRefreshState(true, "正在重新请求信号数据...");
+        const response = await fetch(`./data/signals.json?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) throw new Error(`数据加载失败：${response.status}`);
+        const data = await response.json();
+        latestData = data;
+        document.getElementById("generatedAt").textContent = fmtTime(data.generated_at);
+        setRefreshState(false, isManual ? "刷新完成，已读取最新信号数据。" : "点击后会重新读取最新生成的信号数据。");
+
+        const errors = document.getElementById("errors");
+        errors.hidden = true;
+        errors.textContent = "";
+        if (data.errors?.length) {
+          errors.hidden = false;
+          errors.textContent = data.errors.map((error) => `${error.instrument}: ${error.error}`).join("；");
+        }
+
+        const cards = document.getElementById("cards");
+        renderParameters(data);
+        cards.replaceChildren(...(data.instruments || []).map(renderCard));
+      }
+
+      function rerender() {
+        if (!latestData) return;
+        const cards = document.getElementById("cards");
+        cards.replaceChildren(...(latestData.instruments || []).map(renderCard));
+      }
+
+      ["accountEquity", "riskPct", "leverage"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", rerender);
+      });
+
+      document.getElementById("refreshButton").addEventListener("click", () => {
+        load(true).catch((error) => {
+          setRefreshState(false, `刷新失败：${error.message}`);
+          const errors = document.getElementById("errors");
+          errors.hidden = false;
+          errors.textContent = error.message;
+        });
+      });
+
+      initializeAuthGate();
+    </script>
+  </body>
+</html>
