@@ -4,7 +4,11 @@
 
 - BTC
 - XAU
+- SI
+- CL
 - NASDAQ
+- AUDUSD
+- GBPUSD
 - USDJPY
 - EURUSD
 
@@ -33,7 +37,11 @@
 |---|---|---:|---:|
 | BTC | Yahoo BTC-USD spot proxy | 1.0% | 2.5R |
 | XAU | Yahoo GC=F proxy | 1.25% | 2.5R |
+| SI | Yahoo SI=F proxy | 1.5% | 2.5R |
+| CL | Yahoo CL=F proxy | 1.25% | 2.5R |
 | NASDAQ | Yahoo NQ=F proxy | 1.25% | 2.5R |
+| AUDUSD | Yahoo AUDUSD=X | 0.75% | 2R |
+| GBPUSD | Yahoo GBPUSD=X | 0.75% | 2R |
 | USDJPY | Yahoo JPY=X | 0.75% | 2R |
 | EURUSD | Yahoo EURUSD=X | 0.6% | 2R |
 
