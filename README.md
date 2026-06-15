@@ -68,8 +68,10 @@ http://localhost:8000
 workflow 会：
 
 - 每周一北京时间 08:05 刷新一次。
-- UTC 工作日每 4 小时刷新一次。
+- 北京时间工作日每 4 小时刷新一次（00:10、04:10、08:10 …）。
 - 生成 `data/signals.json` 和 `data/backtest_report.json` 并部署静态站。
+
+网站上的「重新加载部署数据」只会读取 GitHub Pages 上已部署的 JSON，不会重新拉取行情。如需立即更新，请到仓库 Actions 页手动运行 `Update Weekly Strategy Dashboard`。
 
 ## 策略研究
 

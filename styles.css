@@ -132,6 +132,26 @@ dt {
   margin-top: 10px;
 }
 
+.data-freshness[data-level="warn"] {
+  color: var(--yellow);
+}
+
+.data-freshness[data-level="ok"] {
+  color: var(--muted);
+}
+
+.actions-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--blue);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.actions-link:hover {
+  text-decoration: underline;
+}
+
 .rules {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

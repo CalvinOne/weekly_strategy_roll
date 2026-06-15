@@ -3,10 +3,12 @@ name: Update Weekly Strategy Dashboard
 on:
   workflow_dispatch:
   schedule:
-    # Beijing Monday 08:05, near the BTC weekly open and before most broker sessions settle.
-    - cron: "5 0 * * 1"
-    # Refresh every 4 hours on UTC weekdays. This covers the Mon-Fri monitoring loop.
+    # Monday 08:05 Beijing, near the BTC weekly open.
+    - cron: "5 8 * * 1"
+      timezone: "Asia/Shanghai"
+    # Weekday monitoring loop every 4 hours (00:10, 04:10, 08:10, ...).
     - cron: "10 */4 * * 1-5"
+      timezone: "Asia/Shanghai"
 
 permissions:
   contents: read
@@ -21,6 +23,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Log trigger
+        run: |
+          echo "event=${{ github.event_name }}"
+          echo "schedule=${{ github.event.schedule || 'n/a' }}"
+
       - name: Checkout
         uses: actions/checkout@v4
 
