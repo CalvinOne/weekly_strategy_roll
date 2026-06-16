@@ -11,6 +11,7 @@ import json
 import math
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
@@ -121,20 +122,7 @@ def fetch_bybit(interval: str, days: int) -> list[dict[str, Any]]:
     return clean_bars(bars, now_utc(), 4 if interval == "240" else None)
 
 
-def fetch_yahoo(symbol: str, interval: str, range_: str) -> list[dict[str, Any]]:
-    url = (
-        f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?"
-        + urllib.parse.urlencode({"interval": interval, "range": range_, "includePrePost": "false"})
-    )
-    data = http_json(url)
-    chart = data.get("chart", {})
-    if chart.get("error"):
-        raise RuntimeError(f"Yahoo error for {symbol}: {chart['error']}")
-    result = chart.get("result") or []
-    if not result:
-        raise RuntimeError(f"Yahoo returned no data for {symbol}")
-
-    payload = result[0]
+def parse_yahoo_chart(payload: dict[str, Any]) -> list[dict[str, Any]]:
     timestamps = payload.get("timestamp") or []
     quote = payload.get("indicators", {}).get("quote", [{}])[0]
     bars = []
@@ -151,7 +139,92 @@ def fetch_yahoo(symbol: str, interval: str, range_: str) -> list[dict[str, Any]]
                 "close": float(values[3]),
             }
         )
-    return clean_bars(bars, now_utc(), 1 if interval == "1h" else None)
+    return bars
+
+
+def fetch_yahoo_chart(
+    symbol: str,
+    interval: str,
+    *,
+    range_: str | None = None,
+    period1: datetime | None = None,
+    period2: datetime | None = None,
+) -> list[dict[str, Any]]:
+    params: dict[str, Any] = {"interval": interval, "includePrePost": "false"}
+    if range_ is not None:
+        params["range"] = range_
+    else:
+        if period1 is None or period2 is None:
+            raise ValueError("period1 and period2 are required when range_ is not set")
+        params["period1"] = int(period1.timestamp())
+        params["period2"] = int(period2.timestamp())
+
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?" + urllib.parse.urlencode(params)
+    data = http_json(url)
+    chart = data.get("chart", {})
+    if chart.get("error"):
+        raise RuntimeError(f"Yahoo error for {symbol}: {chart['error']}")
+    result = chart.get("result") or []
+    if not result:
+        raise RuntimeError(f"Yahoo returned no data for {symbol}")
+    return parse_yahoo_chart(result[0])
+
+
+def fetch_yahoo(symbol: str, interval: str, range_: str) -> list[dict[str, Any]]:
+    interval_hours = 1 if interval == "1h" else None
+    return clean_bars(fetch_yahoo_chart(symbol, interval, range_=range_), now_utc(), interval_hours)
+
+
+def fetch_yahoo_hourly_extended(symbol: str, min_days: int = 1095) -> list[dict[str, Any]]:
+    """Fetch as much hourly history as Yahoo allows, paginating backwards when needed."""
+    bars_by_dt: dict[datetime, dict[str, Any]] = {}
+    for bar in fetch_yahoo(symbol, "1h", "730d"):
+        bars_by_dt[bar["dt"]] = bar
+
+    if not bars_by_dt:
+        return []
+
+    target = now_utc() - timedelta(days=min_days)
+    cursor = min(bars_by_dt)
+    while cursor > target:
+        window_end = cursor
+        window_start = max(target, window_end - timedelta(days=170))
+        try:
+            chunk = fetch_yahoo_chart(symbol, "1h", period1=window_start, period2=window_end)
+        except (RuntimeError, urllib.error.URLError, urllib.error.HTTPError):
+            break
+        if not chunk:
+            break
+        for bar in chunk:
+            bars_by_dt[bar["dt"]] = bar
+        next_cursor = min(bar["dt"] for bar in chunk)
+        if next_cursor >= cursor:
+            break
+        cursor = next_cursor
+        time.sleep(0.15)
+
+    return clean_bars(list(bars_by_dt.values()), now_utc(), 1)
+
+
+def get_market_data_for_backtest(
+    instrument: Instrument,
+    years: int = 3,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+    min_days = years * 365 + 30
+    if instrument.source == "bybit":
+        weekly = enrich_weekly(fetch_bybit("W", min_days + 250))
+        h4 = fetch_bybit("240", min_days + 30)
+        coverage = {"hourly_start": h4[0]["dt"].isoformat() if h4 else None, "hourly_end": h4[-1]["dt"].isoformat() if h4 else None}
+        return weekly, h4, coverage
+
+    daily = fetch_yahoo(instrument.symbol, "1d", "5y")
+    hourly = fetch_yahoo_hourly_extended(instrument.symbol, min_days=min_days)
+    coverage = {
+        "hourly_start": hourly[0]["dt"].isoformat() if hourly else None,
+        "hourly_end": hourly[-1]["dt"].isoformat() if hourly else None,
+        "hourly_bars": len(hourly),
+    }
+    return enrich_weekly(daily_to_weekly(daily)), resample_to_h4(hourly), coverage
 
 
 def resample_to_h4(hourly: list[dict[str, Any]]) -> list[dict[str, Any]]:

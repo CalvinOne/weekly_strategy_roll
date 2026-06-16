@@ -27,6 +27,14 @@ class RuleVariant:
     description: str
 
 
+PRODUCTION_VARIANT = RuleVariant(
+    "atr_stop",
+    "ATR-Aware Stop",
+    "first_break",
+    "atr",
+    "Current production rule: first 24h 4H close through weekly open, stop at least 1.2x 4H ATR.",
+)
+
 VARIANTS = [
     RuleVariant(
         "baseline",
@@ -295,20 +303,24 @@ def max_losing_streak(trades: list[dict[str, Any]]) -> int:
 
 
 def summarize(trades: list[dict[str, Any]], weeks_tested: int, directional_weeks: int) -> dict[str, Any]:
-    entered = [trade for trade in trades if trade["status"] != "missed_entry"]
+    skipped_statuses = {"missed_entry", "no_intraday_data"}
+    entered = [trade for trade in trades if trade["status"] not in skipped_statuses]
     missed = [trade for trade in trades if trade["status"] == "missed_entry"]
+    no_intraday = [trade for trade in trades if trade["status"] == "no_intraday_data"]
     if not entered:
         return {
             "weeks_tested": weeks_tested,
             "directional_weeks": directional_weeks,
             "trades": 0,
             "missed_entries": len(missed),
+            "no_intraday_weeks": len(no_intraday),
             "win_rate": 0,
             "average_r": 0,
             "total_r": 0,
             "first_target_rate": 0,
             "stop_rate": 0,
             "missed_entry_rate": len(missed) / directional_weeks if directional_weeks else 0,
+            "no_intraday_rate": len(no_intraday) / directional_weeks if directional_weeks else 0,
             "max_losing_streak": 0,
         }
 
@@ -321,12 +333,14 @@ def summarize(trades: list[dict[str, Any]], weeks_tested: int, directional_weeks
         "directional_weeks": directional_weeks,
         "trades": len(entered),
         "missed_entries": len(missed),
+        "no_intraday_weeks": len(no_intraday),
         "win_rate": len(wins) / len(entered),
         "average_r": total_r / len(entered),
         "total_r": total_r,
         "first_target_rate": len(first_targets) / len(entered),
         "stop_rate": len(stopped) / len(entered),
         "missed_entry_rate": len(missed) / directional_weeks if directional_weeks else 0,
+        "no_intraday_rate": len(no_intraday) / directional_weeks if directional_weeks else 0,
         "max_losing_streak": max_losing_streak(entered),
     }
 
@@ -336,14 +350,21 @@ def simulate_instrument(
     variant: RuleVariant,
     weekly: list[dict[str, Any]],
     h4: list[dict[str, Any]],
+    since: datetime | None = None,
+    include_trades: bool = False,
 ) -> dict[str, Any]:
     grouped_h4 = group_h4_by_week(h4)
     current_week = signals.week_start(datetime.now(timezone.utc))
     weekly_by_start = {dt(bar): bar for bar in weekly}
     complete_weeks = sorted(week for week in grouped_h4 if week < current_week and week in weekly_by_start)
+    if since is not None:
+        since_week = signals.week_start(since)
+        complete_weeks = [week for week in complete_weeks if week >= since_week]
 
     trades: list[dict[str, Any]] = []
     directional_weeks = 0
+    neutral_weeks = 0
+    no_intraday_weeks = 0
     for week in complete_weeks:
         previous_weeks = [bar for bar in weekly if dt(bar) < week]
         if not previous_weeks:
@@ -351,17 +372,32 @@ def simulate_instrument(
         previous = previous_weeks[-1]
         direction = signals.direction_from_previous_week(previous)
         if direction == "none":
+            neutral_weeks += 1
             continue
         directional_weeks += 1
-        trades.append(simulate_trade(instrument, variant, direction, week, grouped_h4[week], h4))
+        week_h4 = grouped_h4.get(week, [])
+        if not week_h4:
+            no_intraday_weeks += 1
+            trades.append({"week": week, "status": "no_intraday_data", "r": 0.0, "direction": direction})
+            continue
+        trades.append(simulate_trade(instrument, variant, direction, week, week_h4, h4))
 
-    return {
+    result = {
         "instrument": instrument.key,
         "variant": variant.key,
         "variant_name": variant.name,
         "description": variant.description,
         "metrics": summarize(trades, len(complete_weeks), directional_weeks),
+        "context": {
+            "weeks_in_window": len(complete_weeks),
+            "neutral_weeks": neutral_weeks,
+            "directional_weeks": directional_weeks,
+            "no_intraday_weeks": no_intraday_weeks,
+        },
     }
+    if include_trades:
+        result["trades"] = trades
+    return result
 
 
 def round_floats(value: Any) -> Any:
