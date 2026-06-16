@@ -74,7 +74,7 @@ def clean_bars(bars: list[dict[str, Any]], now: datetime, interval_hours: int | 
     return sorted(cleaned, key=lambda item: item["dt"])
 
 
-def fetch_bybit(interval: str, days: int) -> list[dict[str, Any]]:
+def fetch_bybit(symbol: str, interval: str, days: int) -> list[dict[str, Any]]:
     base = "https://api.bybit.com/v5/market/kline"
     end = now_utc()
     start = end - timedelta(days=days)
@@ -88,7 +88,7 @@ def fetch_bybit(interval: str, days: int) -> list[dict[str, Any]]:
         window_end = min(end_ms, cursor + interval_ms * 1000 - 1)
         params = {
             "category": "linear",
-            "symbol": "BTCUSDT",
+            "symbol": symbol,
             "interval": interval,
             "start": cursor,
             "end": window_end,
@@ -212,8 +212,8 @@ def get_market_data_for_backtest(
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
     min_days = years * 365 + 30
     if instrument.source == "bybit":
-        weekly = enrich_weekly(fetch_bybit("W", min_days + 250))
-        h4 = fetch_bybit("240", min_days + 30)
+        weekly = enrich_weekly(fetch_bybit(instrument.symbol, "W", min_days + 250))
+        h4 = fetch_bybit(instrument.symbol, "240", min_days + 30)
         coverage = {"hourly_start": h4[0]["dt"].isoformat() if h4 else None, "hourly_end": h4[-1]["dt"].isoformat() if h4 else None}
         return weekly, h4, coverage
 
@@ -275,7 +275,9 @@ def enrich_weekly(weekly: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def get_market_data(instrument: Instrument) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     if instrument.source == "bybit":
-        return enrich_weekly(fetch_bybit("W", 365 * 5 + 250)), fetch_bybit("240", 365 * 2 + 30)
+        return enrich_weekly(fetch_bybit(instrument.symbol, "W", 365 * 5 + 250)), fetch_bybit(
+            instrument.symbol, "240", 365 * 2 + 30
+        )
 
     daily = fetch_yahoo(instrument.symbol, "1d", "5y")
     hourly = fetch_yahoo(instrument.symbol, "1h", "730d")
@@ -623,6 +625,14 @@ def round_floats(value: Any) -> Any:
 
 def build_signal(instrument: Instrument) -> dict[str, Any]:
     weekly, h4 = get_market_data(instrument)
+    return build_signal_from_data(instrument, weekly, h4)
+
+
+def build_signal_from_data(
+    instrument: Instrument,
+    weekly: list[dict[str, Any]],
+    h4: list[dict[str, Any]],
+) -> dict[str, Any]:
     current, current_h4, previous = find_current_week_context(weekly, h4)
     direction = direction_from_previous_week(previous) if previous else "none"
     trade = analyze_trade(instrument, direction, current, current_h4, h4)

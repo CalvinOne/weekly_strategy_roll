@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>山寨币周线扫描</title>
+    <link rel="stylesheet" href="./styles.css?v=4" />
+    <style>
+      .topbar .logo,
+      .topbar .logo:visited {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #eaecef;
+        text-decoration: none;
+      }
+      .topbar .site-nav {
+        display: inline-flex;
+        gap: 2px;
+        padding: 3px;
+        border: 1px solid #2b3139;
+        border-radius: 8px;
+        background: #0b0e11;
+      }
+      .topbar .site-nav a,
+      .topbar .site-nav a:visited {
+        padding: 8px 14px;
+        border-radius: 6px;
+        color: #848e9c;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .topbar .site-nav a.active,
+      .topbar .site-nav a.active:visited {
+        background: #0ecb81;
+        color: #0b0e11;
+      }
+    </style>
+  </head>
+  <body data-page="altcoins" data-data-url="./data/altcoins_signals.json">
+    <section id="authGate" class="auth-gate">
+      <form id="authForm" class="auth-card">
+        <h1>访问验证</h1>
+        <p>请输入临时密码查看山寨币周线扫描页。</p>
+        <label>
+          临时密码
+          <input id="authPassword" type="password" autocomplete="current-password" autofocus />
+        </label>
+        <button type="submit">进入</button>
+        <div id="authError" class="auth-error" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <div id="dashboard" hidden>
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a href="./index.html" class="logo">
+            <span class="logo-mark">WTR</span>
+            <span class="logo-text">Weekly Trend Roll</span>
+          </a>
+          <nav class="site-nav" aria-label="页面切换">
+            <a data-page="main" href="./index.html">主战仪表盘</a>
+            <a data-page="altcoins" href="./altcoins.html">山寨扫描</a>
+            <a data-page="stocks" href="./stocks.html">美股扫描</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="shell">
+        <section class="page-head">
+          <div>
+            <p class="eyebrow">Altcoin Weekly Scanner</p>
+            <h1>山寨币周线扫描</h1>
+            <p class="subtitle">
+              Bybit 线性 USDT 永续 24h 成交额前 200（排除 BTC / ETH / 稳定币）；周线过滤 + 首 24h 4H 确认 + ATR 止损。
+            </p>
+          </div>
+          <div class="hero-card panel">
+            <span>数据生成时间（北京时间）</span>
+            <strong id="generatedAt">加载中...</strong>
+            <small id="dataFreshness" class="data-freshness">-</small>
+            <small>行情由 GitHub Actions 定时拉取；下方按钮仅重新读取已部署 JSON。</small>
+            <button id="refreshButton" class="refresh-button" type="button">重新加载部署数据</button>
+            <small id="refreshStatus" class="refresh-status"></small>
+            <a
+              class="actions-link"
+              href="https://github.com/CalvinOne/weekly_strategy_roll/actions/workflows/update-signals.yml"
+              target="_blank"
+              rel="noopener noreferrer"
+            >在 GitHub Actions 手动触发更新 →</a>
+          </div>
+        </section>
+
+        <div class="stats-row panel" id="scanSummary"></div>
+
+        <section class="filter-bar panel">
+          <label>
+            方向
+            <select id="directionFilter">
+              <option value="all">全部</option>
+              <option value="long">只做多</option>
+              <option value="short">只做空</option>
+              <option value="none">不做</option>
+            </select>
+          </label>
+          <label>
+            状态
+            <select id="statusFilter">
+              <option value="all">全部</option>
+              <option value="actionable">可跟踪</option>
+              <option value="high_quality">高质量 (≥75)</option>
+              <option value="active">持仓中</option>
+              <option value="waiting_entry">等待 4H 确认</option>
+              <option value="missed_entry">错过入场</option>
+            </select>
+          </label>
+          <label>
+            排序
+            <select id="sortFilter">
+              <option value="score-desc">质量分从高到低</option>
+              <option value="rank-asc">成交额排名</option>
+              <option value="symbol-asc">代码 A-Z</option>
+            </select>
+          </label>
+          <label>
+            搜索
+            <input id="searchInput" type="search" placeholder="代码或名称" />
+          </label>
+          <span id="scanCount" class="filter-count">显示 0 / 0</span>
+        </section>
+
+        <div id="errors" class="errors panel" hidden></div>
+        <section id="scanCards" class="cards cards-scanner" aria-live="polite"></section>
+        <p id="scanEmpty" class="scan-empty" hidden>当前筛选条件下没有结果。</p>
+      </main>
+    </div>
+
+    <script type="module" src="./assets/scanner.js"></script>
+  </body>
+</html>

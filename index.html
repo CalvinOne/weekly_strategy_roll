@@ -4,78 +4,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Weekly Trend Roll Strategy</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=4" />
     <style>
-      .auth-gate {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding: 24px;
+      .topbar .logo,
+      .topbar .logo:visited {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #eaecef;
+        text-decoration: none;
       }
-
-      body > [hidden] {
-        display: none !important;
+      .topbar .site-nav {
+        display: inline-flex;
+        gap: 2px;
+        padding: 3px;
+        border: 1px solid #2b3139;
+        border-radius: 8px;
+        background: #0b0e11;
       }
-
-      .auth-card {
-        width: min(420px, 100%);
-        padding: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.09);
-        border-radius: 24px;
-        background: rgba(17, 24, 39, 0.92);
-        box-shadow: 0 18px 70px rgba(0, 0, 0, 0.32);
+      .topbar .site-nav a,
+      .topbar .site-nav a:visited {
+        padding: 8px 14px;
+        border-radius: 6px;
+        color: #848e9c;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
       }
-
-      .auth-card h1 {
-        margin: 0 0 12px;
-        font-size: 28px;
-      }
-
-      .auth-card p {
-        margin: 0 0 20px;
-        color: #91a0b5;
-        line-height: 1.6;
-      }
-
-      .auth-card label {
-        display: grid;
-        gap: 8px;
-        color: #e5edf7;
-        font-weight: 700;
-      }
-
-      .auth-card input,
-      .auth-card button {
-        width: 100%;
-        border: 0;
-        border-radius: 14px;
-        padding: 13px 14px;
-        font: inherit;
-      }
-
-      .auth-card input {
-        margin-bottom: 14px;
-        background: #090d14;
-        color: #e5edf7;
-        outline: 1px solid rgba(255, 255, 255, 0.12);
-      }
-
-      .auth-card button {
-        cursor: pointer;
-        background: #2dd4bf;
-        color: #071014;
-        font-weight: 800;
-      }
-
-      .auth-error {
-        min-height: 20px;
-        margin-top: 12px;
-        color: #fb7185;
-        font-size: 14px;
+      .topbar .site-nav a.active,
+      .topbar .site-nav a.active:visited {
+        background: #0ecb81;
+        color: #0b0e11;
       }
     </style>
   </head>
-  <body>
+  <body data-page="main">
     <section id="authGate" class="auth-gate">
       <form id="authForm" class="auth-card">
         <h1>访问验证</h1>
@@ -89,8 +52,23 @@
       </form>
     </section>
 
-    <main id="dashboard" class="shell" hidden>
-      <section class="hero">
+    <div id="dashboard" hidden>
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a href="./index.html" class="logo">
+            <span class="logo-mark">WTR</span>
+            <span class="logo-text">Weekly Trend Roll</span>
+          </a>
+          <nav class="site-nav" aria-label="页面切换">
+            <a data-page="main" href="./index.html">主战仪表盘</a>
+            <a data-page="altcoins" href="./altcoins.html">山寨扫描</a>
+            <a data-page="stocks" href="./stocks.html">美股扫描</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="shell">
+      <section class="page-head">
         <div>
           <p class="eyebrow">Aggressive Weekly Trend System</p>
           <h1>周线趋势滚仓仪表盘</h1>
@@ -98,7 +76,7 @@
             用周线确定方向，用周开盘后的 4H 确认入场；BTC / XAU 主战，趋势周可在首目标后有限度滚仓。
           </p>
         </div>
-        <div class="hero-card">
+        <div class="hero-card panel">
           <span>数据生成时间（北京时间）</span>
           <strong id="generatedAt">加载中...</strong>
           <small id="dataFreshness" class="data-freshness">-</small>
@@ -224,6 +202,7 @@
       <div id="errors" class="errors" hidden></div>
       <section id="cards" class="cards" aria-live="polite"></section>
     </main>
+    </div>
 
     <template id="cardTemplate">
       <article class="card">
@@ -534,10 +513,12 @@
         const trade = item.trade || {};
         const status = trade.status || "no_trade";
 
-        card.classList.add(`status-${status}`);
+        card.classList.add(`status-${status}`, `dir-${item.direction || "none"}`);
         card.querySelector(".symbol").textContent = item.key;
         card.querySelector(".name").textContent = `${item.name} · ${item.symbol}`;
-        card.querySelector(".badge").textContent = directionLabels[item.direction] || item.direction;
+        const badge = card.querySelector(".badge");
+        badge.textContent = directionLabels[item.direction] || item.direction;
+        badge.className = `badge badge-${item.direction || "none"}`;
         card.querySelector(".status").textContent = `${statusLabels[status] || status}：${trade.message || ""}`;
 
         setText(card, "weekOpen", fmtNumber(trade.week_open || item.current_week?.open));
@@ -688,6 +669,11 @@
       });
 
       initializeAuthGate();
+
+      const currentPage = document.body.dataset.page;
+      document.querySelectorAll(".site-nav a").forEach((link) => {
+        link.classList.toggle("active", link.dataset.page === currentPage);
+      });
     </script>
   </body>
 </html>
