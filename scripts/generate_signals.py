@@ -39,7 +39,7 @@ INSTRUMENTS = [
     Instrument("XAU", "Gold Futures Proxy", "yahoo", "GC=F", 1.25, 2.5),
     Instrument("SI", "Silver Futures Proxy", "yahoo", "SI=F", 1.5, 2.5),
     Instrument("CL", "Crude Oil WTI Proxy", "yahoo", "CL=F", 1.25, 2.5),
-    Instrument("NASDAQ", "Nasdaq 100 Futures Proxy", "yahoo", "NQ=F", 1.25, 2.5),
+    Instrument("QQQ", "Invesco QQQ Trust", "yahoo", "QQQ", 1.25, 2.5),
     Instrument("AUDUSD", "AUD/USD", "yahoo", "AUDUSD=X", 0.75, 2.0),
     Instrument("GBPUSD", "GBP/USD", "yahoo", "GBPUSD=X", 0.75, 2.0),
     Instrument("USDJPY", "USD/JPY", "yahoo", "JPY=X", 0.75, 2.0),

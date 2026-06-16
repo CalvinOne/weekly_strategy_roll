@@ -6,7 +6,7 @@
 - XAU
 - SI
 - CL
-- NASDAQ
+- QQQ
 - AUDUSD
 - GBPUSD
 - USDJPY
@@ -39,7 +39,7 @@
 | XAU | Yahoo GC=F proxy | 1.25% | 2.5R |
 | SI | Yahoo SI=F proxy | 1.5% | 2.5R |
 | CL | Yahoo CL=F proxy | 1.25% | 2.5R |
-| NASDAQ | Yahoo NQ=F proxy | 1.25% | 2.5R |
+| QQQ | Yahoo QQQ ETF | 1.25% | 2.5R |
 | AUDUSD | Yahoo AUDUSD=X | 0.75% | 2R |
 | GBPUSD | Yahoo GBPUSD=X | 0.75% | 2R |
 | USDJPY | Yahoo JPY=X | 0.75% | 2R |
@@ -88,7 +88,7 @@ workflow 会：
 ## 已知限制
 
 - 这是策略监控初版，不是自动下单系统。
-- Yahoo 行情是免费代理数据，XAU/NASDAQ 使用期货代理符号，不等于你券商的真实成交价。
+- Yahoo 行情是免费代理数据，XAU 使用期货代理符号，QQQ 为 ETF 现货，不等于你券商的真实成交价。
 - 回测使用简化的 4H K 线内路径假设；同一根 4H 同时触发止损和目标时，保守按先止损计算。
 - 当前加仓提示较简单，只识别首目标后的顺势动量延续。
 - 实盘前需要接入你的真实交易数据源，并进一步优化不同标的的止损、止盈和滚仓规则。

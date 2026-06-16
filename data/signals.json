@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-13T07:06:09.992095+00:00",
+  "generated_at": "2026-06-16T01:14:58.775055+00:00",
   "timezone": "UTC",
   "notes": [
     "Signals are educational and not financial advice.",
@@ -12,27 +12,27 @@
       "name": "Bitcoin Spot Proxy",
       "symbol": "BTC-USD",
       "source": "yahoo",
-      "direction": "short",
-      "generated_at": "2026-06-13T07:06:15.843116+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "direction": "none",
+      "generated_at": "2026-06-16T01:15:02.553034+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 63300.019531,
-        "high": 64340.488281,
-        "low": 60727.199219,
-        "close": 63701.398438
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 65702.0,
+        "high": 67254.726562,
+        "low": 65314.621094,
+        "close": 66215.898438
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 73580.210938,
-        "high": 73969.570312,
-        "low": 59108.917969,
-        "close": 63239.519531,
-        "close_pos": 0.277956,
-        "ma20": 72635.64668,
-        "ma20_slope": -1519.745508
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 63244.085938,
+        "high": 65749.78125,
+        "low": 60756.6875,
+        "close": 65710.398438,
+        "close_pos": 0.992113,
+        "ma20": 71592.555664,
+        "ma20_slope": -1043.091016
       },
-      "h4_candles_this_week": 32,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -46,58 +46,21 @@
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "active",
-        "message": "Initial position is active.",
-        "week_open": 63300.019531,
-        "entry": 63088.039062,
-        "entry_time": "2026-06-08T00:00:00+00:00",
-        "stop": 64677.213873,
-        "first_target": 59115.102035,
-        "fixed_stop_pct": 1.0,
-        "atr_stop_pct": 2.51898,
-        "effective_stop_pct": 2.51898,
-        "stop_basis": "atr",
-        "stop_pct": 2.51898,
-        "target_r": 2.5,
-        "take_profit_pct": 0.35,
-        "target_hit_at": null,
-        "stop_hit_at": null,
-        "breakeven_hit_at": null,
-        "latest_close": 63701.398438,
-        "unrealized_r": -0.385961,
-        "add_on": false,
-        "add_on_note": "No add-on setup."
+        "status": "no_trade",
+        "message": "No weekly direction filter is active."
       },
       "signal_quality": {
-        "score": 98,
-        "label": "High quality",
+        "score": 35,
+        "label": "No setup",
         "factors": [
           {
-            "name": "20WMA distance",
-            "value": "-12.94%"
-          },
-          {
-            "name": "20WMA slope",
-            "value": "-2.092%"
-          },
-          {
-            "name": "Previous close position",
-            "value": "28%"
-          },
-          {
-            "name": "Entry distance from weekly open",
-            "value": "0.33%"
-          },
-          {
-            "name": "Stop model",
-            "value": "fixed 1.0%, ATR ref 2.52%, effective 2.52%"
-          },
-          {
-            "name": "Current weekly range",
-            "value": "5.95%"
+            "name": "Direction filter",
+            "value": "No active weekly direction"
           }
         ],
-        "warnings": []
+        "warnings": [
+          "Weekly filter is neutral; avoid forcing a trade."
+        ]
       }
     },
     {
@@ -106,26 +69,26 @@
       "symbol": "GC=F",
       "source": "yahoo",
       "direction": "short",
-      "generated_at": "2026-06-13T07:06:20.550775+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "generated_at": "2026-06-16T01:15:06.229305+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 4367.0,
-        "high": 4388.600098,
-        "low": 4046.199951,
-        "close": 4239.899902
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 4314.299805,
+        "high": 4391.5,
+        "low": 4306.399902,
+        "close": 4340.299805
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 4523.5,
-        "high": 4541.399902,
-        "low": 4319.100098,
-        "close": 4337.100098,
-        "close_pos": 0.080972,
-        "ma20": 4776.60498,
-        "ma20_slope": -12.56499
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 4324.200195,
+        "high": 4344.5,
+        "low": 4031.0,
+        "close": 4215.0,
+        "close_pos": 0.586922,
+        "ma20": 4738.544971,
+        "ma20_slope": -38.06001
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -139,56 +102,41 @@
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "first_target_hit",
-        "message": "First target hit; partial profit and move remaining stop to breakeven.",
-        "week_open": 4367.0,
-        "entry": 4339.799805,
-        "entry_time": "2026-06-08T00:00:00+00:00",
-        "stop": 4394.047302,
-        "first_target": 4204.181061,
+        "status": "missed_entry",
+        "message": "No 4H confirmation in the first 24h.",
+        "week_open": 4314.299805,
         "fixed_stop_pct": 1.25,
-        "atr_stop_pct": 1.127739,
+        "atr_stop_pct": 1.14576,
         "effective_stop_pct": 1.25,
         "stop_basis": "fixed",
         "stop_pct": 1.25,
-        "target_r": 2.5,
-        "take_profit_pct": 0.35,
-        "target_hit_at": "2026-06-10T00:00:00+00:00",
-        "stop_hit_at": null,
-        "breakeven_hit_at": null,
-        "latest_close": 4239.899902,
-        "unrealized_r": 1.841558,
-        "add_on": false,
-        "add_on_note": "No add-on setup."
+        "stop": 4394.553552,
+        "first_target": 4204.665436,
+        "target_r": 2.5
       },
       "signal_quality": {
-        "score": 86,
-        "label": "High quality",
+        "score": 40,
+        "label": "Low quality",
         "factors": [
           {
             "name": "20WMA distance",
-            "value": "-9.20%"
+            "value": "-11.05%"
           },
           {
             "name": "20WMA slope",
-            "value": "-0.263%"
+            "value": "-0.803%"
           },
           {
             "name": "Previous close position",
-            "value": "8%"
-          },
-          {
-            "name": "Entry distance from weekly open",
-            "value": "0.62%"
+            "value": "59%"
           },
           {
             "name": "Current weekly range",
-            "value": "8.46%"
+            "value": "1.98%"
           }
         ],
         "warnings": [
-          "This week has already expanded a lot versus the stop size.",
-          "First target has already hit; new risk should come only from locked-in profit."
+          "The first 24h entry window has passed without confirmation."
         ]
       }
     },
@@ -197,27 +145,27 @@
       "name": "Silver Futures Proxy",
       "symbol": "SI=F",
       "source": "yahoo",
-      "direction": "short",
-      "generated_at": "2026-06-13T07:06:25.728563+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "direction": "none",
+      "generated_at": "2026-06-16T01:15:09.616544+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 68.305,
-        "high": 69.18,
-        "low": 61.595001,
-        "close": 68.120003
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 70.400002,
+        "high": 71.400002,
+        "low": 69.699997,
+        "close": 69.945
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 74.375,
-        "high": 76.025002,
-        "low": 68.650002,
-        "close": 68.943001,
-        "close_pos": 0.039729,
-        "ma20": 78.677,
-        "ma20_slope": -0.9574
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 67.449997,
+        "high": 68.815002,
+        "low": 63.744999,
+        "close": 67.859001,
+        "close_pos": 0.81144,
+        "ma20": 77.0237,
+        "ma20_slope": -1.6533
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -231,25 +179,174 @@
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "protected_exit",
-        "message": "First target hit, then breakeven stop was touched.",
-        "week_open": 68.305,
-        "entry": 67.925003,
-        "entry_time": "2026-06-08T00:00:00+00:00",
-        "stop": 69.67599,
-        "first_target": 63.547536,
-        "fixed_stop_pct": 1.5,
-        "atr_stop_pct": 2.577824,
-        "effective_stop_pct": 2.577824,
+        "status": "no_trade",
+        "message": "No weekly direction filter is active."
+      },
+      "signal_quality": {
+        "score": 35,
+        "label": "No setup",
+        "factors": [
+          {
+            "name": "Direction filter",
+            "value": "No active weekly direction"
+          }
+        ],
+        "warnings": [
+          "Weekly filter is neutral; avoid forcing a trade."
+        ]
+      }
+    },
+    {
+      "key": "CL",
+      "name": "Crude Oil WTI Proxy",
+      "symbol": "CL=F",
+      "source": "yahoo",
+      "direction": "short",
+      "generated_at": "2026-06-16T01:15:13.068764+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
+      "current_week": {
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 81.0,
+        "high": 81.610001,
+        "low": 79.699997,
+        "close": 81.309998
+      },
+      "previous_week": {
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 93.0,
+        "high": 95.470001,
+        "low": 83.199997,
+        "close": 84.879997,
+        "close_pos": 0.136919,
+        "ma20": 88.0575,
+        "ma20_slope": 1.1905
+      },
+      "h4_candles_this_week": 7,
+      "strategy": {
+        "mode": "aggressive",
+        "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
+        "entry": "First 24h 4H close in the weekly direction.",
+        "risk": "Effective stop = max(1.25% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
+      },
+      "parameters": {
+        "initial_stop_pct": 1.25,
+        "atr_multiplier": 1.2,
+        "first_target_r": 2.5,
+        "first_take_profit_pct": 0.35
+      },
+      "trade": {
+        "status": "active",
+        "message": "Initial position is active.",
+        "week_open": 81.0,
+        "entry": 80.540001,
+        "entry_time": "2026-06-15T00:00:00+00:00",
+        "stop": 83.07243,
+        "first_target": 74.208929,
+        "fixed_stop_pct": 1.25,
+        "atr_stop_pct": 3.144312,
+        "effective_stop_pct": 3.144312,
         "stop_basis": "atr",
-        "stop_pct": 2.577824,
+        "stop_pct": 3.144312,
         "target_r": 2.5,
         "take_profit_pct": 0.35,
-        "target_hit_at": "2026-06-10T04:00:00+00:00",
+        "target_hit_at": null,
         "stop_hit_at": null,
-        "breakeven_hit_at": "2026-06-11T20:00:00+00:00",
-        "latest_close": 68.120003,
-        "unrealized_r": -0.111366,
+        "breakeven_hit_at": null,
+        "latest_close": 81.309998,
+        "unrealized_r": -0.304055,
+        "add_on": false,
+        "add_on_note": "No add-on setup."
+      },
+      "signal_quality": {
+        "score": 70,
+        "label": "Medium quality",
+        "factors": [
+          {
+            "name": "20WMA distance",
+            "value": "-3.61%"
+          },
+          {
+            "name": "20WMA slope",
+            "value": "1.352%"
+          },
+          {
+            "name": "Previous close position",
+            "value": "14%"
+          },
+          {
+            "name": "Entry distance from weekly open",
+            "value": "0.57%"
+          },
+          {
+            "name": "Stop model",
+            "value": "fixed 1.25%, ATR ref 3.14%, effective 3.14%"
+          },
+          {
+            "name": "Current weekly range",
+            "value": "2.40%"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "key": "QQQ",
+      "name": "Invesco QQQ Trust",
+      "symbol": "QQQ",
+      "source": "yahoo",
+      "direction": "long",
+      "generated_at": "2026-06-16T01:15:14.709007+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
+      "current_week": {
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 738.090027,
+        "high": 744.759888,
+        "low": 737.380005,
+        "close": 744.0
+      },
+      "previous_week": {
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 717.809998,
+        "high": 725.659973,
+        "low": 686.369995,
+        "close": 721.340027,
+        "close_pos": 0.89005,
+        "ma20": 643.649496,
+        "ma20_slope": 4.931003
+      },
+      "h4_candles_this_week": 3,
+      "strategy": {
+        "mode": "aggressive",
+        "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
+        "entry": "First 24h 4H close in the weekly direction.",
+        "risk": "Effective stop = max(1.25% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
+      },
+      "parameters": {
+        "initial_stop_pct": 1.25,
+        "atr_multiplier": 1.2,
+        "first_target_r": 2.5,
+        "first_take_profit_pct": 0.35
+      },
+      "trade": {
+        "status": "active",
+        "message": "Initial position is active.",
+        "week_open": 738.090027,
+        "entry": 744.474976,
+        "entry_time": "2026-06-15T12:00:00+00:00",
+        "stop": 725.764534,
+        "first_target": 791.25108,
+        "fixed_stop_pct": 1.25,
+        "atr_stop_pct": 2.51324,
+        "effective_stop_pct": 2.51324,
+        "stop_basis": "atr",
+        "stop_pct": 2.51324,
+        "target_r": 2.5,
+        "take_profit_pct": 0.35,
+        "target_hit_at": null,
+        "stop_hit_at": null,
+        "breakeven_hit_at": null,
+        "latest_close": 744.0,
+        "unrealized_r": -0.025386,
         "add_on": false,
         "add_on_note": "No add-on setup."
       },
@@ -259,142 +356,30 @@
         "factors": [
           {
             "name": "20WMA distance",
-            "value": "-12.37%"
+            "value": "12.07%"
           },
           {
             "name": "20WMA slope",
-            "value": "-1.217%"
+            "value": "0.766%"
           },
           {
             "name": "Previous close position",
-            "value": "4%"
+            "value": "89%"
           },
           {
             "name": "Entry distance from weekly open",
-            "value": "0.56%"
+            "value": "0.87%"
           },
           {
             "name": "Stop model",
-            "value": "fixed 1.5%, ATR ref 2.58%, effective 2.58%"
+            "value": "fixed 1.25%, ATR ref 2.51%, effective 2.51%"
           },
           {
             "name": "Current weekly range",
-            "value": "12.31%"
+            "value": "1.00%"
           }
         ],
         "warnings": []
-      }
-    },
-    {
-      "key": "CL",
-      "name": "Crude Oil WTI Proxy",
-      "symbol": "CL=F",
-      "source": "yahoo",
-      "direction": "none",
-      "generated_at": "2026-06-13T07:06:34.288453+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
-      "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 92.760002,
-        "high": 95.470001,
-        "low": 83.199997,
-        "close": 84.290001
-      },
-      "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 88.5,
-        "high": 97.0,
-        "low": 88.449997,
-        "close": 90.540001,
-        "close_pos": 0.244445,
-        "ma20": 86.867,
-        "ma20_slope": 1.555
-      },
-      "h4_candles_this_week": 30,
-      "strategy": {
-        "mode": "aggressive",
-        "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
-        "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "Effective stop = max(1.25% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
-      },
-      "parameters": {
-        "initial_stop_pct": 1.25,
-        "atr_multiplier": 1.2,
-        "first_target_r": 2.5,
-        "first_take_profit_pct": 0.35
-      },
-      "trade": {
-        "status": "no_trade",
-        "message": "No weekly direction filter is active."
-      },
-      "signal_quality": {
-        "score": 35,
-        "label": "No setup",
-        "factors": [
-          {
-            "name": "Direction filter",
-            "value": "No active weekly direction"
-          }
-        ],
-        "warnings": [
-          "Weekly filter is neutral; avoid forcing a trade."
-        ]
-      }
-    },
-    {
-      "key": "NASDAQ",
-      "name": "Nasdaq 100 Futures Proxy",
-      "symbol": "NQ=F",
-      "source": "yahoo",
-      "direction": "none",
-      "generated_at": "2026-06-13T07:06:40.509655+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
-      "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 29083.5,
-        "high": 29848.25,
-        "low": 28227.75,
-        "close": 29677.75
-      },
-      "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 30415.5,
-        "high": 30807.75,
-        "low": 28781.25,
-        "close": 29026.5,
-        "close_pos": 0.121021,
-        "ma20": 26364.101465,
-        "ma20_slope": 166.875
-      },
-      "h4_candles_this_week": 30,
-      "strategy": {
-        "mode": "aggressive",
-        "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
-        "entry": "First 24h 4H close in the weekly direction.",
-        "risk": "Effective stop = max(1.25% fixed, 1.2x 4H ATR); 2.5R first target; position sizing uses the effective stop to lock account risk."
-      },
-      "parameters": {
-        "initial_stop_pct": 1.25,
-        "atr_multiplier": 1.2,
-        "first_target_r": 2.5,
-        "first_take_profit_pct": 0.35
-      },
-      "trade": {
-        "status": "no_trade",
-        "message": "No weekly direction filter is active."
-      },
-      "signal_quality": {
-        "score": 35,
-        "label": "No setup",
-        "factors": [
-          {
-            "name": "Direction filter",
-            "value": "No active weekly direction"
-          }
-        ],
-        "warnings": [
-          "Weekly filter is neutral; avoid forcing a trade."
-        ]
       }
     },
     {
@@ -402,27 +387,27 @@
       "name": "AUD/USD",
       "symbol": "AUDUSD=X",
       "source": "yahoo",
-      "direction": "short",
-      "generated_at": "2026-06-13T07:06:46.162656+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "direction": "long",
+      "generated_at": "2026-06-16T01:15:18.899109+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 0.704424,
-        "high": 0.707914,
-        "low": 0.698275,
-        "close": 0.704871
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 0.707864,
+        "high": 0.708968,
+        "low": 0.706714,
+        "close": 0.707264
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 0.71648,
-        "high": 0.7188,
-        "low": 0.703532,
-        "close": 0.70435,
-        "close_pos": 0.053581,
-        "ma20": 0.706065,
-        "ma20_slope": 0.001696
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 0.70384,
+        "high": 0.7089,
+        "low": 0.69801,
+        "close": 0.70752,
+        "close_pos": 0.873244,
+        "ma20": 0.707239,
+        "ma20_slope": 0.001173
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -438,13 +423,13 @@
       "trade": {
         "status": "active",
         "message": "Initial position is active.",
-        "week_open": 0.704424,
-        "entry": 0.704126,
-        "entry_time": "2026-06-08T20:00:00+00:00",
-        "stop": 0.709407,
-        "first_target": 0.693564,
+        "week_open": 0.707864,
+        "entry": 0.708466,
+        "entry_time": "2026-06-15T00:00:00+00:00",
+        "stop": 0.703153,
+        "first_target": 0.719093,
         "fixed_stop_pct": 0.75,
-        "atr_stop_pct": 0.393391,
+        "atr_stop_pct": 0.348444,
         "effective_stop_pct": 0.75,
         "stop_basis": "fixed",
         "stop_pct": 0.75,
@@ -453,34 +438,34 @@
         "target_hit_at": null,
         "stop_hit_at": null,
         "breakeven_hit_at": null,
-        "latest_close": 0.704871,
-        "unrealized_r": -0.140971,
+        "latest_close": 0.707264,
+        "unrealized_r": -0.226326,
         "add_on": false,
         "add_on_note": "No add-on setup."
       },
       "signal_quality": {
-        "score": 57,
+        "score": 71,
         "label": "Medium quality",
         "factors": [
           {
             "name": "20WMA distance",
-            "value": "-0.24%"
-          },
-          {
-            "name": "20WMA slope",
-            "value": "0.240%"
-          },
-          {
-            "name": "Previous close position",
-            "value": "5%"
-          },
-          {
-            "name": "Entry distance from weekly open",
             "value": "0.04%"
           },
           {
+            "name": "20WMA slope",
+            "value": "0.166%"
+          },
+          {
+            "name": "Previous close position",
+            "value": "87%"
+          },
+          {
+            "name": "Entry distance from weekly open",
+            "value": "0.09%"
+          },
+          {
             "name": "Current weekly range",
-            "value": "1.38%"
+            "value": "0.32%"
           }
         ],
         "warnings": []
@@ -491,27 +476,27 @@
       "name": "GBP/USD",
       "symbol": "GBPUSD=X",
       "source": "yahoo",
-      "direction": "short",
-      "generated_at": "2026-06-13T07:06:55.207487+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "direction": "none",
+      "generated_at": "2026-06-16T01:15:23.343039+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 1.333565,
-        "high": 1.342823,
-        "low": 1.330725,
-        "close": 1.340734
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 1.345225,
+        "high": 1.346094,
+        "low": 1.34068,
+        "close": 1.341472
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 1.346022,
-        "high": 1.348272,
-        "low": 1.33069,
-        "close": 1.333565,
-        "close_pos": 0.163506,
-        "ma20": 1.345545,
-        "ma20_slope": -0.000228
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 1.33328,
+        "high": 1.346112,
+        "low": 1.332569,
+        "close": 1.344972,
+        "close_pos": 0.915772,
+        "ma20": 1.345287,
+        "ma20_slope": -0.000258
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -525,54 +510,21 @@
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "active",
-        "message": "Initial position is active.",
-        "week_open": 1.333565,
-        "entry": 1.332924,
-        "entry_time": "2026-06-08T04:00:00+00:00",
-        "stop": 1.342921,
-        "first_target": 1.312931,
-        "fixed_stop_pct": 0.75,
-        "atr_stop_pct": 0.256043,
-        "effective_stop_pct": 0.75,
-        "stop_basis": "fixed",
-        "stop_pct": 0.75,
-        "target_r": 2.0,
-        "take_profit_pct": 0.35,
-        "target_hit_at": null,
-        "stop_hit_at": null,
-        "breakeven_hit_at": null,
-        "latest_close": 1.340734,
-        "unrealized_r": -0.781215,
-        "add_on": false,
-        "add_on_note": "No add-on setup."
+        "status": "no_trade",
+        "message": "No weekly direction filter is active."
       },
       "signal_quality": {
-        "score": 70,
-        "label": "Medium quality",
+        "score": 35,
+        "label": "No setup",
         "factors": [
           {
-            "name": "20WMA distance",
-            "value": "-0.89%"
-          },
-          {
-            "name": "20WMA slope",
-            "value": "-0.017%"
-          },
-          {
-            "name": "Previous close position",
-            "value": "16%"
-          },
-          {
-            "name": "Entry distance from weekly open",
-            "value": "0.05%"
-          },
-          {
-            "name": "Current weekly range",
-            "value": "0.91%"
+            "name": "Direction filter",
+            "value": "No active weekly direction"
           }
         ],
-        "warnings": []
+        "warnings": [
+          "Weekly filter is neutral; avoid forcing a trade."
+        ]
       }
     },
     {
@@ -580,27 +532,27 @@
       "name": "USD/JPY",
       "symbol": "JPY=X",
       "source": "yahoo",
-      "direction": "long",
-      "generated_at": "2026-06-13T07:07:00.448600+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "direction": "none",
+      "generated_at": "2026-06-16T01:15:27.133662+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 160.328003,
-        "high": 160.602005,
-        "low": 159.516006,
-        "close": 160.184998
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 159.955002,
+        "high": 160.397003,
+        "low": 159.876999,
+        "close": 160.192993
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 159.639999,
-        "high": 160.388,
-        "low": 159.511993,
-        "close": 160.326996,
-        "close_pos": 0.930361,
-        "ma20": 157.827798,
-        "ma20_slope": 0.08655
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 160.182007,
+        "high": 160.585999,
+        "low": 159.886993,
+        "close": 159.955002,
+        "close_pos": 0.097293,
+        "ma20": 157.900497,
+        "ma20_slope": 0.0727
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -614,54 +566,21 @@
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "active",
-        "message": "Initial position is active.",
-        "week_open": 160.328003,
-        "entry": 160.339005,
-        "entry_time": "2026-06-08T00:00:00+00:00",
-        "stop": 159.136462,
-        "first_target": 162.74409,
-        "fixed_stop_pct": 0.75,
-        "atr_stop_pct": 0.159114,
-        "effective_stop_pct": 0.75,
-        "stop_basis": "fixed",
-        "stop_pct": 0.75,
-        "target_r": 2.0,
-        "take_profit_pct": 0.35,
-        "target_hit_at": null,
-        "stop_hit_at": null,
-        "breakeven_hit_at": null,
-        "latest_close": 160.184998,
-        "unrealized_r": -0.128068,
-        "add_on": false,
-        "add_on_note": "No add-on setup."
+        "status": "no_trade",
+        "message": "No weekly direction filter is active."
       },
       "signal_quality": {
-        "score": 74,
-        "label": "Medium quality",
+        "score": 35,
+        "label": "No setup",
         "factors": [
           {
-            "name": "20WMA distance",
-            "value": "1.58%"
-          },
-          {
-            "name": "20WMA slope",
-            "value": "0.055%"
-          },
-          {
-            "name": "Previous close position",
-            "value": "93%"
-          },
-          {
-            "name": "Entry distance from weekly open",
-            "value": "0.01%"
-          },
-          {
-            "name": "Current weekly range",
-            "value": "0.68%"
+            "name": "Direction filter",
+            "value": "No active weekly direction"
           }
         ],
-        "warnings": []
+        "warnings": [
+          "Weekly filter is neutral; avoid forcing a trade."
+        ]
       }
     },
     {
@@ -669,27 +588,27 @@
       "name": "EUR/USD",
       "symbol": "EURUSD=X",
       "source": "yahoo",
-      "direction": "short",
-      "generated_at": "2026-06-13T07:07:07.004299+00:00",
-      "current_week_start": "2026-06-08T00:00:00+00:00",
+      "direction": "none",
+      "generated_at": "2026-06-16T01:15:30.917057+00:00",
+      "current_week_start": "2026-06-15T00:00:00+00:00",
       "current_week": {
-        "dt": "2026-06-08T00:00:00+00:00",
-        "open": 1.152605,
-        "high": 1.159286,
-        "low": 1.150351,
-        "close": 1.157274
+        "dt": "2026-06-15T00:00:00+00:00",
+        "open": 1.160901,
+        "high": 1.162385,
+        "low": 1.158749,
+        "close": 1.159689
       },
       "previous_week": {
-        "dt": "2026-06-01T00:00:00+00:00",
-        "open": 1.163562,
-        "high": 1.165501,
-        "low": 1.150086,
-        "close": 1.15226,
-        "close_pos": 0.140987,
-        "ma20": 1.168473,
-        "ma20_slope": -0.000432
+        "dt": "2026-06-08T00:00:00+00:00",
+        "open": 1.152791,
+        "high": 1.16225,
+        "low": 1.15145,
+        "close": 1.160308,
+        "close_pos": 0.820189,
+        "ma20": 1.167715,
+        "ma20_slope": -0.000758
       },
-      "h4_candles_this_week": 30,
+      "h4_candles_this_week": 7,
       "strategy": {
         "mode": "aggressive",
         "weekly_filter": "Long: prev close > 20WMA, 20WMA rising, prev close in top 30%. Short: prev close < 20WMA and prev close not in top 30%.",
@@ -703,55 +622,20 @@
         "first_take_profit_pct": 0.35
       },
       "trade": {
-        "status": "stopped",
-        "message": "Initial stop was hit.",
-        "week_open": 1.152605,
-        "entry": 1.152074,
-        "entry_time": "2026-06-08T04:00:00+00:00",
-        "stop": 1.158986,
-        "first_target": 1.138249,
-        "fixed_stop_pct": 0.6,
-        "atr_stop_pct": 0.235921,
-        "effective_stop_pct": 0.6,
-        "stop_basis": "fixed",
-        "stop_pct": 0.6,
-        "target_r": 2.0,
-        "take_profit_pct": 0.35,
-        "target_hit_at": null,
-        "stop_hit_at": "2026-06-12T08:00:00+00:00",
-        "breakeven_hit_at": null,
-        "latest_close": 1.157274,
-        "unrealized_r": -0.752236,
-        "add_on": false,
-        "add_on_note": "No add-on setup."
+        "status": "no_trade",
+        "message": "No weekly direction filter is active."
       },
       "signal_quality": {
-        "score": 30,
-        "label": "Low quality",
+        "score": 35,
+        "label": "No setup",
         "factors": [
           {
-            "name": "20WMA distance",
-            "value": "-1.39%"
-          },
-          {
-            "name": "20WMA slope",
-            "value": "-0.037%"
-          },
-          {
-            "name": "Previous close position",
-            "value": "14%"
-          },
-          {
-            "name": "Entry distance from weekly open",
-            "value": "0.05%"
-          },
-          {
-            "name": "Current weekly range",
-            "value": "0.78%"
+            "name": "Direction filter",
+            "value": "No active weekly direction"
           }
         ],
         "warnings": [
-          "Initial stop has already been hit for the current setup."
+          "Weekly filter is neutral; avoid forcing a trade."
         ]
       }
     }
