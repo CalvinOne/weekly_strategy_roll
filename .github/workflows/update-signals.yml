@@ -2,6 +2,9 @@ name: Update Weekly Strategy Dashboard
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   schedule:
     # Monday 08:05 Beijing, near the BTC weekly open.
     - cron: "5 8 * * 1"
@@ -42,6 +45,7 @@ jobs:
       - name: Generate scanner pages
         run: python scripts/generate_scanner.py --type all --limit 200 --altcoin-sleep 0.15 --stock-sleep 0.6
         timeout-minutes: 90
+        continue-on-error: true
 
       - name: Run strategy comparison
         run: python scripts/backtest_strategy.py
