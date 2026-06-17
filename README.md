@@ -15,8 +15,8 @@
 ## 页面结构
 
 - `index.html`：主战仪表盘（BTC / XAU 等核心标的）
-- `altcoins.html`：Bybit 线性 USDT 永续成交额前 200 山寨币周线扫描（排除 BTC / ETH / 稳定币）
-- `stocks.html`：约 200 只大市值美股周线扫描
+- `altcoins.html`：Bybit 线性 USDT 永续成交额前 100 山寨币周线扫描（排除 BTC / ETH / 稳定币）
+- `stocks.html`：流动性较好的约 100 只大市值美股周线扫描
 
 三个页面可通过顶部导航互相切换；扫描页使用同一套周线过滤 + 4H 确认 + ATR 止损规则。
 
@@ -69,7 +69,7 @@
 
 ```bash
 python3 scripts/generate_signals.py
-python3 scripts/generate_scanner.py --type all --limit 200
+python3 scripts/generate_scanner.py --type all --limit 100
 python3 scripts/backtest_strategy.py
 python3 scripts/backtest_3y_report.py
 python3 -m http.server 8000

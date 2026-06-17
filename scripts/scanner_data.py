@@ -67,7 +67,7 @@ def is_excluded_altcoin(symbol: str) -> bool:
     return base in EXCLUDED_ALTCOIN_SYMBOLS or symbol in {"BTCUSDT", "ETHUSDT"}
 
 
-def load_cached_altcoin_markets(limit: int = 200) -> list[dict[str, Any]]:
+def load_cached_altcoin_markets(limit: int = 100) -> list[dict[str, Any]]:
     payload = json.loads(ALTCOIN_UNIVERSE_FILE.read_text(encoding="utf-8"))
     rows = payload.get("coins") or []
     for index, row in enumerate(rows[:limit], start=1):
@@ -93,7 +93,7 @@ def save_altcoin_universe(markets: list[dict[str, Any]]) -> None:
     ALTCOIN_UNIVERSE_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def fetch_bybit_altcoin_markets(limit: int = 200) -> list[dict[str, Any]]:
+def fetch_bybit_altcoin_markets(limit: int = 100) -> list[dict[str, Any]]:
     try:
         tickers = fetch_bybit_linear_tickers()
     except Exception as exc:
@@ -136,7 +136,7 @@ def get_altcoin_market_data(symbol: str) -> tuple[list[dict[str, Any]], list[dic
     return weekly, h4
 
 
-def altcoin_instruments(limit: int = 200) -> list[tuple[signals.Instrument, dict[str, Any]]]:
+def altcoin_instruments(limit: int = 100) -> list[tuple[signals.Instrument, dict[str, Any]]]:
     markets = fetch_bybit_altcoin_markets(limit)
     items: list[tuple[signals.Instrument, dict[str, Any]]] = []
     for row in markets:
@@ -160,13 +160,13 @@ def altcoin_instruments(limit: int = 200) -> list[tuple[signals.Instrument, dict
     return items
 
 
-def load_us_stock_universe(limit: int = 200) -> list[dict[str, str]]:
+def load_us_stock_universe(limit: int = 100) -> list[dict[str, str]]:
     payload = json.loads(US_UNIVERSE_FILE.read_text(encoding="utf-8"))
     rows = payload.get("stocks") or []
     return rows[:limit]
 
 
-def stock_instruments(limit: int = 200) -> list[tuple[signals.Instrument, dict[str, Any]]]:
+def stock_instruments(limit: int = 100) -> list[tuple[signals.Instrument, dict[str, Any]]]:
     rows = load_us_stock_universe(limit)
     items: list[tuple[signals.Instrument, dict[str, Any]]] = []
     for index, row in enumerate(rows, start=1):

@@ -147,7 +147,7 @@ def generate_stocks(limit: int, sleep_seconds: float) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate scanner signal files.")
     parser.add_argument("--type", choices=["altcoins", "stocks", "all"], default="all")
-    parser.add_argument("--limit", type=int, default=200)
+    parser.add_argument("--limit", type=int, default=100)
     parser.add_argument("--sleep", type=float, default=1.2, help="Default pause between symbols.")
     parser.add_argument("--altcoin-sleep", type=float, default=0.15, help="Pause between altcoin API calls.")
     parser.add_argument("--stock-sleep", type=float, default=0.6, help="Pause between stock API calls.")

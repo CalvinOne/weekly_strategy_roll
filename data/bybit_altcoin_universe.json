@@ -1,41 +1,47 @@
 {
   "description": "Cached Bybit linear USDT universe for CI fallback when tickers API is blocked.",
-  "updated_from": "2026-06-16T05:37:13.571163+00:00",
+  "updated_at": "2026-06-17T06:36:57.676247+00:00",
   "coins": [
+    {
+      "symbol": "HYPEUSDT",
+      "base": "HYPE",
+      "name": "HYPE",
+      "market_cap_rank": 1
+    },
     {
       "symbol": "SOLUSDT",
       "base": "SOL",
       "name": "SOL",
-      "market_cap_rank": 1
+      "market_cap_rank": 2
     },
     {
       "symbol": "XRPUSDT",
       "base": "XRP",
       "name": "XRP",
-      "market_cap_rank": 2
-    },
-    {
-      "symbol": "ZECUSDT",
-      "base": "ZEC",
-      "name": "ZEC",
-      "market_cap_rank": 4
-    },
-    {
-      "symbol": "HUSDT",
-      "base": "H",
-      "name": "H",
-      "market_cap_rank": 5
+      "market_cap_rank": 3
     },
     {
       "symbol": "WLDUSDT",
       "base": "WLD",
       "name": "WLD",
+      "market_cap_rank": 4
+    },
+    {
+      "symbol": "ZECUSDT",
+      "base": "ZEC",
+      "name": "ZEC",
+      "market_cap_rank": 5
+    },
+    {
+      "symbol": "SPCXUSDT",
+      "base": "SPCX",
+      "name": "SPCX",
       "market_cap_rank": 6
     },
     {
-      "symbol": "DOGEUSDT",
-      "base": "DOGE",
-      "name": "DOGE",
+      "symbol": "HUSDT",
+      "base": "H",
+      "name": "H",
       "market_cap_rank": 7
     },
     {
@@ -45,57 +51,57 @@
       "market_cap_rank": 8
     },
     {
-      "symbol": "XLMUSDT",
-      "base": "XLM",
-      "name": "XLM",
+      "symbol": "BSBUSDT",
+      "base": "BSB",
+      "name": "BSB",
       "market_cap_rank": 9
     },
     {
-      "symbol": "TAOUSDT",
-      "base": "TAO",
-      "name": "TAO",
+      "symbol": "DOGEUSDT",
+      "base": "DOGE",
+      "name": "DOGE",
       "market_cap_rank": 10
-    },
-    {
-      "symbol": "FARTCOINUSDT",
-      "base": "FARTCOIN",
-      "name": "FARTCOIN",
-      "market_cap_rank": 11
-    },
-    {
-      "symbol": "ADAUSDT",
-      "base": "ADA",
-      "name": "ADA",
-      "market_cap_rank": 12
-    },
-    {
-      "symbol": "JTOUSDT",
-      "base": "JTO",
-      "name": "JTO",
-      "market_cap_rank": 13
     },
     {
       "symbol": "BEATUSDT",
       "base": "BEAT",
       "name": "BEAT",
+      "market_cap_rank": 11
+    },
+    {
+      "symbol": "XLMUSDT",
+      "base": "XLM",
+      "name": "XLM",
+      "market_cap_rank": 12
+    },
+    {
+      "symbol": "ADAUSDT",
+      "base": "ADA",
+      "name": "ADA",
+      "market_cap_rank": 13
+    },
+    {
+      "symbol": "UNIUSDT",
+      "base": "UNI",
+      "name": "UNI",
       "market_cap_rank": 14
     },
     {
-      "symbol": "1000PEPEUSDT",
-      "base": "1000PEPE",
-      "name": "1000PEPE",
+      "symbol": "TAOUSDT",
+      "base": "TAO",
+      "name": "TAO",
       "market_cap_rank": 15
     },
     {
-      "symbol": "EVAAUSDT",
-      "base": "EVAA",
-      "name": "EVAA",
+      "symbol": "JTOUSDT",
+      "base": "JTO",
+      "name": "JTO",
       "market_cap_rank": 16
     },
     {
-      "symbol": "SUIUSDT",
-      "base": "SUI",
-      "name": "SUI",
+      "symbol": "LABUSDT",
+      "base": "LAB",
+      "name": "LAB",
       "market_cap_rank": 17
     },
     {
@@ -105,177 +111,177 @@
       "market_cap_rank": 18
     },
     {
-      "symbol": "BSBUSDT",
-      "base": "BSB",
-      "name": "BSB",
-      "market_cap_rank": 19
-    },
-    {
-      "symbol": "TRUMPUSDT",
-      "base": "TRUMP",
-      "name": "TRUMP",
-      "market_cap_rank": 20
-    },
-    {
-      "symbol": "ONDOUSDT",
-      "base": "ONDO",
-      "name": "ONDO",
-      "market_cap_rank": 21
-    },
-    {
       "symbol": "XAUUSDT",
       "base": "XAU",
       "name": "XAU",
-      "market_cap_rank": 22
-    },
-    {
-      "symbol": "XAUTUSDT",
-      "base": "XAUT",
-      "name": "XAUT",
-      "market_cap_rank": 23
-    },
-    {
-      "symbol": "AVAXUSDT",
-      "base": "AVAX",
-      "name": "AVAX",
-      "market_cap_rank": 24
-    },
-    {
-      "symbol": "BCHUSDT",
-      "base": "BCH",
-      "name": "BCH",
-      "market_cap_rank": 25
-    },
-    {
-      "symbol": "LINKUSDT",
-      "base": "LINK",
-      "name": "LINK",
-      "market_cap_rank": 26
-    },
-    {
-      "symbol": "AAVEUSDT",
-      "base": "AAVE",
-      "name": "AAVE",
-      "market_cap_rank": 27
-    },
-    {
-      "symbol": "XMRUSDT",
-      "base": "XMR",
-      "name": "XMR",
-      "market_cap_rank": 28
-    },
-    {
-      "symbol": "OPGUSDT",
-      "base": "OPG",
-      "name": "OPG",
-      "market_cap_rank": 29
+      "market_cap_rank": 19
     },
     {
       "symbol": "BNBUSDT",
       "base": "BNB",
       "name": "BNB",
-      "market_cap_rank": 30
+      "market_cap_rank": 20
     },
     {
-      "symbol": "SPCXUSDT",
-      "base": "SPCX",
-      "name": "SPCX",
-      "market_cap_rank": 31
+      "symbol": "SUIUSDT",
+      "base": "SUI",
+      "name": "SUI",
+      "market_cap_rank": 21
     },
     {
-      "symbol": "LTCUSDT",
-      "base": "LTC",
-      "name": "LTC",
-      "market_cap_rank": 32
+      "symbol": "ONDOUSDT",
+      "base": "ONDO",
+      "name": "ONDO",
+      "market_cap_rank": 22
     },
     {
-      "symbol": "UNIUSDT",
-      "base": "UNI",
-      "name": "UNI",
-      "market_cap_rank": 33
-    },
-    {
-      "symbol": "XAGUSDT",
-      "base": "XAG",
-      "name": "XAG",
-      "market_cap_rank": 34
-    },
-    {
-      "symbol": "XPLUSDT",
-      "base": "XPL",
-      "name": "XPL",
-      "market_cap_rank": 35
-    },
-    {
-      "symbol": "CLOUSDT",
-      "base": "CLO",
-      "name": "CLO",
-      "market_cap_rank": 36
-    },
-    {
-      "symbol": "ZROUSDT",
-      "base": "ZRO",
-      "name": "ZRO",
-      "market_cap_rank": 37
-    },
-    {
-      "symbol": "INJUSDT",
-      "base": "INJ",
-      "name": "INJ",
-      "market_cap_rank": 38
+      "symbol": "FARTCOINUSDT",
+      "base": "FARTCOIN",
+      "name": "FARTCOIN",
+      "market_cap_rank": 23
     },
     {
       "symbol": "SPXUSDT",
       "base": "SPX",
       "name": "SPX",
-      "market_cap_rank": 39
+      "market_cap_rank": 24
     },
     {
-      "symbol": "VIRTUALUSDT",
-      "base": "VIRTUAL",
-      "name": "VIRTUAL",
-      "market_cap_rank": 40
+      "symbol": "1000PEPEUSDT",
+      "base": "1000PEPE",
+      "name": "1000PEPE",
+      "market_cap_rank": 25
     },
     {
-      "symbol": "CLUSDT",
-      "base": "CL",
-      "name": "CL",
-      "market_cap_rank": 41
-    },
-    {
-      "symbol": "SIRENUSDT",
-      "base": "SIREN",
-      "name": "SIREN",
-      "market_cap_rank": 42
-    },
-    {
-      "symbol": "HOMEUSDT",
-      "base": "HOME",
-      "name": "HOME",
-      "market_cap_rank": 43
-    },
-    {
-      "symbol": "VVVUSDT",
-      "base": "VVV",
-      "name": "VVV",
-      "market_cap_rank": 44
+      "symbol": "BCHUSDT",
+      "base": "BCH",
+      "name": "BCH",
+      "market_cap_rank": 26
     },
     {
       "symbol": "SOXLUSDT",
       "base": "SOXL",
       "name": "SOXL",
+      "market_cap_rank": 27
+    },
+    {
+      "symbol": "CLUSDT",
+      "base": "CL",
+      "name": "CL",
+      "market_cap_rank": 28
+    },
+    {
+      "symbol": "XPLUSDT",
+      "base": "XPL",
+      "name": "XPL",
+      "market_cap_rank": 29
+    },
+    {
+      "symbol": "INJUSDT",
+      "base": "INJ",
+      "name": "INJ",
+      "market_cap_rank": 30
+    },
+    {
+      "symbol": "TRUMPUSDT",
+      "base": "TRUMP",
+      "name": "TRUMP",
+      "market_cap_rank": 31
+    },
+    {
+      "symbol": "LINKUSDT",
+      "base": "LINK",
+      "name": "LINK",
+      "market_cap_rank": 32
+    },
+    {
+      "symbol": "AEROUSDT",
+      "base": "AERO",
+      "name": "AERO",
+      "market_cap_rank": 33
+    },
+    {
+      "symbol": "AAVEUSDT",
+      "base": "AAVE",
+      "name": "AAVE",
+      "market_cap_rank": 34
+    },
+    {
+      "symbol": "XAUTUSDT",
+      "base": "XAUT",
+      "name": "XAUT",
+      "market_cap_rank": 35
+    },
+    {
+      "symbol": "STGUSDT",
+      "base": "STG",
+      "name": "STG",
+      "market_cap_rank": 36
+    },
+    {
+      "symbol": "PORTALUSDT",
+      "base": "PORTAL",
+      "name": "PORTAL",
+      "market_cap_rank": 37
+    },
+    {
+      "symbol": "AVAXUSDT",
+      "base": "AVAX",
+      "name": "AVAX",
+      "market_cap_rank": 38
+    },
+    {
+      "symbol": "MUUSDT",
+      "base": "MU",
+      "name": "MU",
+      "market_cap_rank": 39
+    },
+    {
+      "symbol": "SNDKUSDT",
+      "base": "SNDK",
+      "name": "SNDK",
+      "market_cap_rank": 40
+    },
+    {
+      "symbol": "VELVETUSDT",
+      "base": "VELVET",
+      "name": "VELVET",
+      "market_cap_rank": 41
+    },
+    {
+      "symbol": "XMRUSDT",
+      "base": "XMR",
+      "name": "XMR",
+      "market_cap_rank": 42
+    },
+    {
+      "symbol": "LTCUSDT",
+      "base": "LTC",
+      "name": "LTC",
+      "market_cap_rank": 43
+    },
+    {
+      "symbol": "XAGUSDT",
+      "base": "XAG",
+      "name": "XAG",
+      "market_cap_rank": 44
+    },
+    {
+      "symbol": "EVAAUSDT",
+      "base": "EVAA",
+      "name": "EVAA",
       "market_cap_rank": 45
     },
     {
-      "symbol": "JELLYJELLYUSDT",
-      "base": "JELLYJELLY",
-      "name": "JELLYJELLY",
+      "symbol": "ESPORTSUSDT",
+      "base": "ESPORTS",
+      "name": "ESPORTS",
       "market_cap_rank": 46
     },
     {
-      "symbol": "ICPUSDT",
-      "base": "ICP",
-      "name": "ICP",
+      "symbol": "TIAUSDT",
+      "base": "TIA",
+      "name": "TIA",
       "market_cap_rank": 47
     },
     {
@@ -285,147 +291,147 @@
       "market_cap_rank": 48
     },
     {
-      "symbol": "APTUSDT",
-      "base": "APT",
-      "name": "APT",
+      "symbol": "BRUSDT",
+      "base": "BR",
+      "name": "BR",
       "market_cap_rank": 49
     },
     {
-      "symbol": "ALLOUSDT",
-      "base": "ALLO",
-      "name": "ALLO",
+      "symbol": "SENTUSDT",
+      "base": "SENT",
+      "name": "SENT",
       "market_cap_rank": 50
     },
     {
-      "symbol": "STGUSDT",
-      "base": "STG",
-      "name": "STG",
+      "symbol": "VIRTUALUSDT",
+      "base": "VIRTUAL",
+      "name": "VIRTUAL",
       "market_cap_rank": 51
-    },
-    {
-      "symbol": "DOTUSDT",
-      "base": "DOT",
-      "name": "DOT",
-      "market_cap_rank": 52
-    },
-    {
-      "symbol": "PENGUUSDT",
-      "base": "PENGU",
-      "name": "PENGU",
-      "market_cap_rank": 53
-    },
-    {
-      "symbol": "SNDKUSDT",
-      "base": "SNDK",
-      "name": "SNDK",
-      "market_cap_rank": 54
-    },
-    {
-      "symbol": "CHIPUSDT",
-      "base": "CHIP",
-      "name": "CHIP",
-      "market_cap_rank": 55
-    },
-    {
-      "symbol": "MUUSDT",
-      "base": "MU",
-      "name": "MU",
-      "market_cap_rank": 56
-    },
-    {
-      "symbol": "LABUSDT",
-      "base": "LAB",
-      "name": "LAB",
-      "market_cap_rank": 57
-    },
-    {
-      "symbol": "HBARUSDT",
-      "base": "HBAR",
-      "name": "HBAR",
-      "market_cap_rank": 58
-    },
-    {
-      "symbol": "RENDERUSDT",
-      "base": "RENDER",
-      "name": "RENDER",
-      "market_cap_rank": 59
-    },
-    {
-      "symbol": "1000BONKUSDT",
-      "base": "1000BONK",
-      "name": "1000BONK",
-      "market_cap_rank": 60
-    },
-    {
-      "symbol": "UAIUSDT",
-      "base": "UAI",
-      "name": "UAI",
-      "market_cap_rank": 61
-    },
-    {
-      "symbol": "VELVETUSDT",
-      "base": "VELVET",
-      "name": "VELVET",
-      "market_cap_rank": 62
-    },
-    {
-      "symbol": "MEGAUSDT",
-      "base": "MEGA",
-      "name": "MEGA",
-      "market_cap_rank": 63
-    },
-    {
-      "symbol": "AEROUSDT",
-      "base": "AERO",
-      "name": "AERO",
-      "market_cap_rank": 64
-    },
-    {
-      "symbol": "ASTERUSDT",
-      "base": "ASTER",
-      "name": "ASTER",
-      "market_cap_rank": 65
-    },
-    {
-      "symbol": "ARBUSDT",
-      "base": "ARB",
-      "name": "ARB",
-      "market_cap_rank": 66
-    },
-    {
-      "symbol": "WLFIUSDT",
-      "base": "WLFI",
-      "name": "WLFI",
-      "market_cap_rank": 67
-    },
-    {
-      "symbol": "TIAUSDT",
-      "base": "TIA",
-      "name": "TIA",
-      "market_cap_rank": 68
     },
     {
       "symbol": "LITUSDT",
       "base": "LIT",
       "name": "LIT",
+      "market_cap_rank": 52
+    },
+    {
+      "symbol": "DOTUSDT",
+      "base": "DOT",
+      "name": "DOT",
+      "market_cap_rank": 53
+    },
+    {
+      "symbol": "VVVUSDT",
+      "base": "VVV",
+      "name": "VVV",
+      "market_cap_rank": 54
+    },
+    {
+      "symbol": "ARBUSDT",
+      "base": "ARB",
+      "name": "ARB",
+      "market_cap_rank": 55
+    },
+    {
+      "symbol": "APTUSDT",
+      "base": "APT",
+      "name": "APT",
+      "market_cap_rank": 56
+    },
+    {
+      "symbol": "SIRENUSDT",
+      "base": "SIREN",
+      "name": "SIREN",
+      "market_cap_rank": 57
+    },
+    {
+      "symbol": "ICPUSDT",
+      "base": "ICP",
+      "name": "ICP",
+      "market_cap_rank": 58
+    },
+    {
+      "symbol": "SPACEUSDT",
+      "base": "SPACE",
+      "name": "SPACE",
+      "market_cap_rank": 59
+    },
+    {
+      "symbol": "ASTERUSDT",
+      "base": "ASTER",
+      "name": "ASTER",
+      "market_cap_rank": 60
+    },
+    {
+      "symbol": "HBARUSDT",
+      "base": "HBAR",
+      "name": "HBAR",
+      "market_cap_rank": 61
+    },
+    {
+      "symbol": "PENGUUSDT",
+      "base": "PENGU",
+      "name": "PENGU",
+      "market_cap_rank": 62
+    },
+    {
+      "symbol": "OPUSDT",
+      "base": "OP",
+      "name": "OP",
+      "market_cap_rank": 63
+    },
+    {
+      "symbol": "MRVLUSDT",
+      "base": "MRVL",
+      "name": "MRVL",
+      "market_cap_rank": 64
+    },
+    {
+      "symbol": "ALLOUSDT",
+      "base": "ALLO",
+      "name": "ALLO",
+      "market_cap_rank": 65
+    },
+    {
+      "symbol": "RENDERUSDT",
+      "base": "RENDER",
+      "name": "RENDER",
+      "market_cap_rank": 66
+    },
+    {
+      "symbol": "OPGUSDT",
+      "base": "OPG",
+      "name": "OPG",
+      "market_cap_rank": 67
+    },
+    {
+      "symbol": "HOMEUSDT",
+      "base": "HOME",
+      "name": "HOME",
+      "market_cap_rank": 68
+    },
+    {
+      "symbol": "BLESSUSDT",
+      "base": "BLESS",
+      "name": "BLESS",
       "market_cap_rank": 69
     },
     {
-      "symbol": "ESPORTSUSDT",
-      "base": "ESPORTS",
-      "name": "ESPORTS",
+      "symbol": "ZROUSDT",
+      "base": "ZRO",
+      "name": "ZRO",
       "market_cap_rank": 70
     },
     {
-      "symbol": "GRASSUSDT",
-      "base": "GRASS",
-      "name": "GRASS",
+      "symbol": "BTWUSDT",
+      "base": "BTW",
+      "name": "BTW",
       "market_cap_rank": 71
     },
     {
-      "symbol": "BABYUSDT",
-      "base": "BABY",
-      "name": "BABY",
+      "symbol": "IDUSDT",
+      "base": "ID",
+      "name": "ID",
       "market_cap_rank": 72
     },
     {
@@ -435,748 +441,166 @@
       "market_cap_rank": 73
     },
     {
-      "symbol": "EIGENUSDT",
-      "base": "EIGEN",
-      "name": "EIGEN",
+      "symbol": "TRIAUSDT",
+      "base": "TRIA",
+      "name": "TRIA",
       "market_cap_rank": 74
-    },
-    {
-      "symbol": "TRXUSDT",
-      "base": "TRX",
-      "name": "TRX",
-      "market_cap_rank": 75
-    },
-    {
-      "symbol": "MRVLUSDT",
-      "base": "MRVL",
-      "name": "MRVL",
-      "market_cap_rank": 76
-    },
-    {
-      "symbol": "IPUSDT",
-      "base": "IP",
-      "name": "IP",
-      "market_cap_rank": 77
-    },
-    {
-      "symbol": "JUPUSDT",
-      "base": "JUP",
-      "name": "JUP",
-      "market_cap_rank": 78
-    },
-    {
-      "symbol": "ATOMUSDT",
-      "base": "ATOM",
-      "name": "ATOM",
-      "market_cap_rank": 79
-    },
-    {
-      "symbol": "OPUSDT",
-      "base": "OP",
-      "name": "OP",
-      "market_cap_rank": 80
-    },
-    {
-      "symbol": "SHIB1000USDT",
-      "base": "SHIB1000",
-      "name": "SHIB1000",
-      "market_cap_rank": 81
     },
     {
       "symbol": "FILUSDT",
       "base": "FIL",
       "name": "FIL",
-      "market_cap_rank": 82
-    },
-    {
-      "symbol": "MNTUSDT",
-      "base": "MNT",
-      "name": "MNT",
-      "market_cap_rank": 83
-    },
-    {
-      "symbol": "CRVUSDT",
-      "base": "CRV",
-      "name": "CRV",
-      "market_cap_rank": 84
-    },
-    {
-      "symbol": "GALAUSDT",
-      "base": "GALA",
-      "name": "GALA",
-      "market_cap_rank": 85
-    },
-    {
-      "symbol": "STRKUSDT",
-      "base": "STRK",
-      "name": "STRK",
-      "market_cap_rank": 86
-    },
-    {
-      "symbol": "ALGOUSDT",
-      "base": "ALGO",
-      "name": "ALGO",
-      "market_cap_rank": 87
-    },
-    {
-      "symbol": "PUFFERUSDT",
-      "base": "PUFFER",
-      "name": "PUFFER",
-      "market_cap_rank": 88
-    },
-    {
-      "symbol": "SAHARAUSDT",
-      "base": "SAHARA",
-      "name": "SAHARA",
-      "market_cap_rank": 89
+      "market_cap_rank": 75
     },
     {
       "symbol": "SEIUSDT",
       "base": "SEI",
       "name": "SEI",
-      "market_cap_rank": 90
+      "market_cap_rank": 76
     },
     {
-      "symbol": "INTCUSDT",
-      "base": "INTC",
-      "name": "INTC",
-      "market_cap_rank": 91
+      "symbol": "ATOMUSDT",
+      "base": "ATOM",
+      "name": "ATOM",
+      "market_cap_rank": 77
     },
     {
-      "symbol": "ORDIUSDT",
-      "base": "ORDI",
-      "name": "ORDI",
-      "market_cap_rank": 92
+      "symbol": "CRVUSDT",
+      "base": "CRV",
+      "name": "CRV",
+      "market_cap_rank": 78
     },
     {
-      "symbol": "DASHUSDT",
-      "base": "DASH",
-      "name": "DASH",
-      "market_cap_rank": 93
+      "symbol": "MNTUSDT",
+      "base": "MNT",
+      "name": "MNT",
+      "market_cap_rank": 79
     },
     {
-      "symbol": "USELESSUSDT",
-      "base": "USELESS",
-      "name": "USELESS",
-      "market_cap_rank": 94
-    },
-    {
-      "symbol": "ROAMUSDT",
-      "base": "ROAM",
-      "name": "ROAM",
-      "market_cap_rank": 95
-    },
-    {
-      "symbol": "SPACEUSDT",
-      "base": "SPACE",
-      "name": "SPACE",
-      "market_cap_rank": 96
-    },
-    {
-      "symbol": "ETCUSDT",
-      "base": "ETC",
-      "name": "ETC",
-      "market_cap_rank": 97
-    },
-    {
-      "symbol": "MAGMAUSDT",
-      "base": "MAGMA",
-      "name": "MAGMA",
-      "market_cap_rank": 98
-    },
-    {
-      "symbol": "FIDAUSDT",
-      "base": "FIDA",
-      "name": "FIDA",
-      "market_cap_rank": 99
-    },
-    {
-      "symbol": "CHZUSDT",
-      "base": "CHZ",
-      "name": "CHZ",
-      "market_cap_rank": 100
-    },
-    {
-      "symbol": "BASEDUSDT",
-      "base": "BASED",
-      "name": "BASED",
-      "market_cap_rank": 101
+      "symbol": "IPUSDT",
+      "base": "IP",
+      "name": "IP",
+      "market_cap_rank": 80
     },
     {
       "symbol": "LDOUSDT",
       "base": "LDO",
       "name": "LDO",
-      "market_cap_rank": 102
+      "market_cap_rank": 81
     },
     {
-      "symbol": "PYTHUSDT",
-      "base": "PYTH",
-      "name": "PYTH",
-      "market_cap_rank": 103
+      "symbol": "ROAMUSDT",
+      "base": "ROAM",
+      "name": "ROAM",
+      "market_cap_rank": 82
     },
     {
-      "symbol": "BANANAS31USDT",
-      "base": "BANANAS31",
-      "name": "BANANAS31",
-      "market_cap_rank": 104
+      "symbol": "ORDIUSDT",
+      "base": "ORDI",
+      "name": "ORDI",
+      "market_cap_rank": 83
     },
     {
-      "symbol": "PENDLEUSDT",
-      "base": "PENDLE",
-      "name": "PENDLE",
-      "market_cap_rank": 105
+      "symbol": "EPICUSDT",
+      "base": "EPIC",
+      "name": "EPIC",
+      "market_cap_rank": 84
     },
     {
-      "symbol": "BILLUSDT",
-      "base": "BILL",
-      "name": "BILL",
-      "market_cap_rank": 106
-    },
-    {
-      "symbol": "COAIUSDT",
-      "base": "COAI",
-      "name": "COAI",
-      "market_cap_rank": 107
-    },
-    {
-      "symbol": "SLXUSDT",
-      "base": "SLX",
-      "name": "SLX",
-      "market_cap_rank": 108
-    },
-    {
-      "symbol": "PIPPINUSDT",
-      "base": "PIPPIN",
-      "name": "PIPPIN",
-      "market_cap_rank": 109
-    },
-    {
-      "symbol": "ARKMUSDT",
-      "base": "ARKM",
-      "name": "ARKM",
-      "market_cap_rank": 110
-    },
-    {
-      "symbol": "CRCLUSDT",
-      "base": "CRCL",
-      "name": "CRCL",
-      "market_cap_rank": 111
-    },
-    {
-      "symbol": "POPCATUSDT",
-      "base": "POPCAT",
-      "name": "POPCAT",
-      "market_cap_rank": 112
-    },
-    {
-      "symbol": "ZKCUSDT",
-      "base": "ZKC",
-      "name": "ZKC",
-      "market_cap_rank": 113
-    },
-    {
-      "symbol": "ETHFIUSDT",
-      "base": "ETHFI",
-      "name": "ETHFI",
-      "market_cap_rank": 114
-    },
-    {
-      "symbol": "HMSTRUSDT",
-      "base": "HMSTR",
-      "name": "HMSTR",
-      "market_cap_rank": 115
-    },
-    {
-      "symbol": "BTWUSDT",
-      "base": "BTW",
-      "name": "BTW",
-      "market_cap_rank": 116
-    },
-    {
-      "symbol": "IOUSDT",
-      "base": "IO",
-      "name": "IO",
-      "market_cap_rank": 117
-    },
-    {
-      "symbol": "AKTUSDT",
-      "base": "AKT",
-      "name": "AKT",
-      "market_cap_rank": 118
-    },
-    {
-      "symbol": "GPSUSDT",
-      "base": "GPS",
-      "name": "GPS",
-      "market_cap_rank": 119
-    },
-    {
-      "symbol": "BIOUSDT",
-      "base": "BIO",
-      "name": "BIO",
-      "market_cap_rank": 120
-    },
-    {
-      "symbol": "MSTRUSDT",
-      "base": "MSTR",
-      "name": "MSTR",
-      "market_cap_rank": 121
-    },
-    {
-      "symbol": "CCUSDT",
-      "base": "CC",
-      "name": "CC",
-      "market_cap_rank": 122
-    },
-    {
-      "symbol": "PIEVERSEUSDT",
-      "base": "PIEVERSE",
-      "name": "PIEVERSE",
-      "market_cap_rank": 123
-    },
-    {
-      "symbol": "HEIUSDT",
-      "base": "HEI",
-      "name": "HEI",
-      "market_cap_rank": 124
-    },
-    {
-      "symbol": "RAVEUSDT",
-      "base": "RAVE",
-      "name": "RAVE",
-      "market_cap_rank": 125
-    },
-    {
-      "symbol": "ENSUSDT",
-      "base": "ENS",
-      "name": "ENS",
-      "market_cap_rank": 126
-    },
-    {
-      "symbol": "PAXGUSDT",
-      "base": "PAXG",
-      "name": "PAXG",
-      "market_cap_rank": 127
-    },
-    {
-      "symbol": "CBRSUSDT",
-      "base": "CBRS",
-      "name": "CBRS",
-      "market_cap_rank": 128
-    },
-    {
-      "symbol": "NILUSDT",
-      "base": "NIL",
-      "name": "NIL",
-      "market_cap_rank": 129
-    },
-    {
-      "symbol": "JASMYUSDT",
-      "base": "JASMY",
-      "name": "JASMY",
-      "market_cap_rank": 130
-    },
-    {
-      "symbol": "ZKUSDT",
-      "base": "ZK",
-      "name": "ZK",
-      "market_cap_rank": 131
-    },
-    {
-      "symbol": "JCTUSDT",
-      "base": "JCT",
-      "name": "JCT",
-      "market_cap_rank": 132
-    },
-    {
-      "symbol": "POLUSDT",
-      "base": "POL",
-      "name": "POL",
-      "market_cap_rank": 134
-    },
-    {
-      "symbol": "KASUSDT",
-      "base": "KAS",
-      "name": "KAS",
-      "market_cap_rank": 135
-    },
-    {
-      "symbol": "PLUMEUSDT",
-      "base": "PLUME",
-      "name": "PLUME",
-      "market_cap_rank": 136
+      "symbol": "TRXUSDT",
+      "base": "TRX",
+      "name": "TRX",
+      "market_cap_rank": 85
     },
     {
       "symbol": "SKYAI1USDT",
       "base": "SKYAI1",
       "name": "SKYAI1",
-      "market_cap_rank": 137
+      "market_cap_rank": 86
     },
     {
-      "symbol": "EDGEUSDT",
-      "base": "EDGE",
-      "name": "EDGE",
-      "market_cap_rank": 138
+      "symbol": "PENDLEUSDT",
+      "base": "PENDLE",
+      "name": "PENDLE",
+      "market_cap_rank": 87
     },
     {
-      "symbol": "ENSOUSDT",
-      "base": "ENSO",
-      "name": "ENSO",
-      "market_cap_rank": 139
+      "symbol": "JUPUSDT",
+      "base": "JUP",
+      "name": "JUP",
+      "market_cap_rank": 88
     },
     {
-      "symbol": "EGLDUSDT",
-      "base": "EGLD",
-      "name": "EGLD",
-      "market_cap_rank": 140
+      "symbol": "WLFIUSDT",
+      "base": "WLFI",
+      "name": "WLFI",
+      "market_cap_rank": 89
     },
     {
-      "symbol": "MOVEUSDT",
-      "base": "MOVE",
-      "name": "MOVE",
-      "market_cap_rank": 141
-    },
-    {
-      "symbol": "OPNUSDT",
-      "base": "OPN",
-      "name": "OPN",
-      "market_cap_rank": 142
-    },
-    {
-      "symbol": "WAVESUSDT",
-      "base": "WAVES",
-      "name": "WAVES",
-      "market_cap_rank": 143
-    },
-    {
-      "symbol": "MEUSDT",
-      "base": "ME",
-      "name": "ME",
-      "market_cap_rank": 144
-    },
-    {
-      "symbol": "WALUSDT",
-      "base": "WAL",
-      "name": "WAL",
-      "market_cap_rank": 145
-    },
-    {
-      "symbol": "AIGENSYNUSDT",
-      "base": "AIGENSYN",
-      "name": "AIGENSYN",
-      "market_cap_rank": 146
-    },
-    {
-      "symbol": "MONUSDT",
-      "base": "MON",
-      "name": "MON",
-      "market_cap_rank": 147
-    },
-    {
-      "symbol": "MOODENGUSDT",
-      "base": "MOODENG",
-      "name": "MOODENG",
-      "market_cap_rank": 148
-    },
-    {
-      "symbol": "ARMUSDT",
-      "base": "ARM",
-      "name": "ARM",
-      "market_cap_rank": 149
-    },
-    {
-      "symbol": "NOTUSDT",
-      "base": "NOT",
-      "name": "NOT",
-      "market_cap_rank": 150
-    },
-    {
-      "symbol": "OPENUSDT",
-      "base": "OPEN",
-      "name": "OPEN",
-      "market_cap_rank": 151
-    },
-    {
-      "symbol": "IDUSDT",
-      "base": "ID",
-      "name": "ID",
-      "market_cap_rank": 152
-    },
-    {
-      "symbol": "BERAUSDT",
-      "base": "BERA",
-      "name": "BERA",
-      "market_cap_rank": 153
-    },
-    {
-      "symbol": "FOLKSUSDT",
-      "base": "FOLKS",
-      "name": "FOLKS",
-      "market_cap_rank": 154
-    },
-    {
-      "symbol": "SANDUSDT",
-      "base": "SAND",
-      "name": "SAND",
-      "market_cap_rank": 155
-    },
-    {
-      "symbol": "DRAMUSDT",
-      "base": "DRAM",
-      "name": "DRAM",
-      "market_cap_rank": 156
-    },
-    {
-      "symbol": "ROSEUSDT",
-      "base": "ROSE",
-      "name": "ROSE",
-      "market_cap_rank": 157
-    },
-    {
-      "symbol": "METUSDT",
-      "base": "MET",
-      "name": "MET",
-      "market_cap_rank": 158
-    },
-    {
-      "symbol": "EDENUSDT",
-      "base": "EDEN",
-      "name": "EDEN",
-      "market_cap_rank": 159
-    },
-    {
-      "symbol": "MEMEUSDT",
-      "base": "MEME",
-      "name": "MEME",
-      "market_cap_rank": 160
-    },
-    {
-      "symbol": "EWYUSDT",
-      "base": "EWY",
-      "name": "EWY",
-      "market_cap_rank": 161
-    },
-    {
-      "symbol": "MIRAUSDT",
-      "base": "MIRA",
-      "name": "MIRA",
-      "market_cap_rank": 162
-    },
-    {
-      "symbol": "FHEUSDT",
-      "base": "FHE",
-      "name": "FHE",
-      "market_cap_rank": 163
-    },
-    {
-      "symbol": "GWEIUSDT",
-      "base": "GWEI",
-      "name": "GWEI",
-      "market_cap_rank": 164
-    },
-    {
-      "symbol": "DEXEUSDT",
-      "base": "DEXE",
-      "name": "DEXE",
-      "market_cap_rank": 165
-    },
-    {
-      "symbol": "APEUSDT",
-      "base": "APE",
-      "name": "APE",
-      "market_cap_rank": 166
-    },
-    {
-      "symbol": "SKYUSDT",
-      "base": "SKY",
-      "name": "SKY",
-      "market_cap_rank": 167
-    },
-    {
-      "symbol": "DYDXUSDT",
-      "base": "DYDX",
-      "name": "DYDX",
-      "market_cap_rank": 168
-    },
-    {
-      "symbol": "WCTUSDT",
-      "base": "WCT",
-      "name": "WCT",
-      "market_cap_rank": 169
+      "symbol": "CHIPUSDT",
+      "base": "CHIP",
+      "name": "CHIP",
+      "market_cap_rank": 90
     },
     {
       "symbol": "ORCAUSDT",
       "base": "ORCA",
       "name": "ORCA",
-      "market_cap_rank": 170
+      "market_cap_rank": 91
     },
     {
-      "symbol": "AAOIUSDT",
-      "base": "AAOI",
-      "name": "AAOI",
-      "market_cap_rank": 171
+      "symbol": "GALAUSDT",
+      "base": "GALA",
+      "name": "GALA",
+      "market_cap_rank": 92
     },
     {
-      "symbol": "GENIUSUSDT",
-      "base": "GENIUS",
-      "name": "GENIUS",
-      "market_cap_rank": 172
+      "symbol": "1000BONKUSDT",
+      "base": "1000BONK",
+      "name": "1000BONK",
+      "market_cap_rank": 93
     },
     {
-      "symbol": "ZBTUSDT",
-      "base": "ZBT",
-      "name": "ZBT",
-      "market_cap_rank": 173
+      "symbol": "CLOUSDT",
+      "base": "CLO",
+      "name": "CLO",
+      "market_cap_rank": 94
     },
     {
-      "symbol": "FIGHTUSDT",
-      "base": "FIGHT",
-      "name": "FIGHT",
-      "market_cap_rank": 174
-    },
-    {
-      "symbol": "1000FLOKIUSDT",
-      "base": "1000FLOKI",
-      "name": "1000FLOKI",
-      "market_cap_rank": 175
-    },
-    {
-      "symbol": "XVGUSDT",
-      "base": "XVG",
-      "name": "XVG",
-      "market_cap_rank": 176
-    },
-    {
-      "symbol": "RIVERUSDT",
-      "base": "RIVER",
-      "name": "RIVER",
-      "market_cap_rank": 177
-    },
-    {
-      "symbol": "BOMEUSDT",
-      "base": "BOME",
-      "name": "BOME",
-      "market_cap_rank": 178
-    },
-    {
-      "symbol": "KAITOUSDT",
-      "base": "KAITO",
-      "name": "KAITO",
-      "market_cap_rank": 179
-    },
-    {
-      "symbol": "AXSUSDT",
-      "base": "AXS",
-      "name": "AXS",
-      "market_cap_rank": 180
-    },
-    {
-      "symbol": "ENJUSDT",
-      "base": "ENJ",
-      "name": "ENJ",
-      "market_cap_rank": 181
-    },
-    {
-      "symbol": "MYXUSDT",
-      "base": "MYX",
-      "name": "MYX",
-      "market_cap_rank": 183
-    },
-    {
-      "symbol": "MERLUSDT",
-      "base": "MERL",
-      "name": "MERL",
-      "market_cap_rank": 184
-    },
-    {
-      "symbol": "AVNTUSDT",
-      "base": "AVNT",
-      "name": "AVNT",
-      "market_cap_rank": 185
-    },
-    {
-      "symbol": "MORPHOUSDT",
-      "base": "MORPHO",
-      "name": "MORPHO",
-      "market_cap_rank": 186
-    },
-    {
-      "symbol": "KERNELUSDT",
-      "base": "KERNEL",
-      "name": "KERNEL",
-      "market_cap_rank": 187
-    },
-    {
-      "symbol": "PORTALUSDT",
-      "base": "PORTAL",
-      "name": "PORTAL",
-      "market_cap_rank": 188
-    },
-    {
-      "symbol": "QQQUSDT",
-      "base": "QQQ",
-      "name": "QQQ",
-      "market_cap_rank": 189
+      "symbol": "EIGENUSDT",
+      "base": "EIGEN",
+      "name": "EIGEN",
+      "market_cap_rank": 95
     },
     {
       "symbol": "SQDUSDT",
       "base": "SQD",
       "name": "SQD",
-      "market_cap_rank": 190
+      "market_cap_rank": 96
     },
     {
-      "symbol": "B3USDT",
-      "base": "B3",
-      "name": "B3",
-      "market_cap_rank": 191
+      "symbol": "BIOUSDT",
+      "base": "BIO",
+      "name": "BIO",
+      "market_cap_rank": 97
     },
     {
-      "symbol": "MUSDT",
-      "base": "M",
-      "name": "M",
-      "market_cap_rank": 192
+      "symbol": "STRKUSDT",
+      "base": "STRK",
+      "name": "STRK",
+      "market_cap_rank": 98
     },
     {
-      "symbol": "ZENUSDT",
-      "base": "ZEN",
-      "name": "ZEN",
-      "market_cap_rank": 193
+      "symbol": "GRASSUSDT",
+      "base": "GRASS",
+      "name": "GRASS",
+      "market_cap_rank": 99
     },
     {
-      "symbol": "KITEUSDT",
-      "base": "KITE",
-      "name": "KITE",
-      "market_cap_rank": 194
-    },
-    {
-      "symbol": "QNTXUSDT",
-      "base": "QNTX",
-      "name": "QNTX",
-      "market_cap_rank": 195
-    },
-    {
-      "symbol": "STABLEUSDT",
-      "base": "STABLE",
-      "name": "STABLE",
-      "market_cap_rank": 196
-    },
-    {
-      "symbol": "IOTAUSDT",
-      "base": "IOTA",
-      "name": "IOTA",
-      "market_cap_rank": 197
-    },
-    {
-      "symbol": "AZTECUSDT",
-      "base": "AZTEC",
-      "name": "AZTEC",
-      "market_cap_rank": 199
-    },
-    {
-      "symbol": "NVDAUSDT",
-      "base": "NVDA",
-      "name": "NVDA",
-      "market_cap_rank": 200
+      "symbol": "POLUSDT",
+      "base": "POL",
+      "name": "POL",
+      "market_cap_rank": 100
     }
   ]
 }
