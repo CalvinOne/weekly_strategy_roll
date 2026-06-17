@@ -54,6 +54,21 @@ jobs:
       - name: Run strategy comparison
         run: python scripts/backtest_strategy.py
 
+      - name: Verify scanner outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          for name in ("altcoins_signals.json", "stocks_signals.json"):
+              path = Path("data") / name
+              payload = json.loads(path.read_text(encoding="utf-8"))
+              scanned = int(payload.get("scanned") or 0)
+              if scanned <= 0:
+                  raise SystemExit(f"{name} has no scanned instruments; refusing to deploy empty scanner data.")
+              print(f"{name}: scanned={scanned} generated_at={payload.get('generated_at')}")
+          PY
+
       - name: Build static site
         run: |
           mkdir -p _site/data _site/assets

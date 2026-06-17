@@ -20,6 +20,51 @@ OUTPUTS = {
     "stocks": ROOT / "data" / "stocks_signals.json",
 }
 
+MIN_SUCCESS_RATIO = 0.5
+
+
+def load_existing_output(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if payload.get("instruments") else None
+
+
+def should_preserve_existing(output: dict[str, Any], path: Path) -> bool:
+    existing = load_existing_output(path)
+    if not existing:
+        return False
+
+    scanned = int(output.get("scanned") or 0)
+    universe_size = int(output.get("universe_size") or 0)
+    if scanned == 0:
+        return True
+    if universe_size > 0 and scanned / universe_size < MIN_SUCCESS_RATIO:
+        return True
+    return False
+
+
+def write_output(path: Path, output: dict[str, Any]) -> bool:
+    if should_preserve_existing(output, path):
+        existing = load_existing_output(path)
+        print(
+            f"Skipped {path.name} scanned={output['scanned']}/{output['universe_size']}; "
+            f"keeping existing scanned={existing.get('scanned')} "
+            f"generated_at={existing.get('generated_at')}"
+        )
+        return False
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(
+        f"Wrote {path} scanned={output['scanned']} directional={output['directional_count']} "
+        f"errors={len(output['errors'])}"
+    )
+    return True
+
 
 def attach_meta(signal: dict[str, Any], meta: dict[str, Any]) -> dict[str, Any]:
     signal["market_cap_rank"] = meta.get("market_cap_rank")
@@ -109,8 +154,7 @@ def main() -> int:
     args = parser.parse_args()
 
     targets = ["altcoins", "stocks"] if args.type == "all" else [args.type]
-    wrote = 0
-    failed = 0
+    succeeded = 0
     for target in targets:
         sleep_seconds = args.altcoin_sleep if target == "altcoins" else args.stock_sleep
         path = OUTPUTS[target]
@@ -121,17 +165,22 @@ def main() -> int:
                 else generate_stocks(args.limit, sleep_seconds)
             )
         except Exception as exc:  # noqa: BLE001 - keep other scanner targets running.
-            failed += 1
-            print(f"[{target}] FATAL {exc}", file=sys.stderr)
+            existing = load_existing_output(path)
+            if existing:
+                print(
+                    f"[{target}] FATAL {exc}; keeping existing {path.name} "
+                    f"scanned={existing.get('scanned')} generated_at={existing.get('generated_at')}",
+                    file=sys.stderr,
+                )
+                succeeded += 1
+            else:
+                print(f"[{target}] FATAL {exc}", file=sys.stderr)
             continue
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(
-            f"Wrote {path} scanned={output['scanned']} directional={output['directional_count']} "
-            f"errors={len(output['errors'])}"
-        )
-        wrote += 1
-    return 0 if wrote else 1
+        if write_output(path, output):
+            succeeded += 1
+        elif load_existing_output(path):
+            succeeded += 1
+    return 0 if succeeded else 1
 
 
 if __name__ == "__main__":
