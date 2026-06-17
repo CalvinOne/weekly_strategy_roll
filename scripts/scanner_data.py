@@ -12,6 +12,7 @@ import generate_signals as signals
 
 ROOT = Path(__file__).resolve().parents[1]
 US_UNIVERSE_FILE = ROOT / "data" / "us_stocks_universe.json"
+ALTCOIN_UNIVERSE_FILE = ROOT / "data" / "bybit_altcoin_universe.json"
 
 EXCLUDED_ALTCOIN_SYMBOLS = {
     "BTC",
@@ -66,8 +67,41 @@ def is_excluded_altcoin(symbol: str) -> bool:
     return base in EXCLUDED_ALTCOIN_SYMBOLS or symbol in {"BTCUSDT", "ETHUSDT"}
 
 
+def load_cached_altcoin_markets(limit: int = 200) -> list[dict[str, Any]]:
+    payload = json.loads(ALTCOIN_UNIVERSE_FILE.read_text(encoding="utf-8"))
+    rows = payload.get("coins") or []
+    for index, row in enumerate(rows[:limit], start=1):
+        row.setdefault("market_cap_rank", index)
+    return rows[:limit]
+
+
+def save_altcoin_universe(markets: list[dict[str, Any]]) -> None:
+    payload = {
+        "description": "Cached Bybit linear USDT universe for CI fallback when tickers API is blocked.",
+        "updated_at": signals.now_utc().isoformat(),
+        "coins": [
+            {
+                "symbol": row["symbol"],
+                "base": row["base"],
+                "name": row.get("name") or row["base"],
+                "market_cap_rank": row.get("market_cap_rank"),
+            }
+            for row in markets
+        ],
+    }
+    ALTCOIN_UNIVERSE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    ALTCOIN_UNIVERSE_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def fetch_bybit_altcoin_markets(limit: int = 200) -> list[dict[str, Any]]:
-    tickers = fetch_bybit_linear_tickers()
+    try:
+        tickers = fetch_bybit_linear_tickers()
+    except Exception as exc:
+        if ALTCOIN_UNIVERSE_FILE.exists():
+            print(f"Bybit tickers unavailable ({exc}); using cached universe from {ALTCOIN_UNIVERSE_FILE.name}.")
+            return load_cached_altcoin_markets(limit)
+        raise
+
     ranked: list[dict[str, Any]] = []
     for row in tickers:
         symbol = str(row.get("symbol") or "")
@@ -90,7 +124,10 @@ def fetch_bybit_altcoin_markets(limit: int = 200) -> list[dict[str, Any]]:
     ranked.sort(key=lambda item: item["turnover24h"], reverse=True)
     for index, row in enumerate(ranked[:limit], start=1):
         row["market_cap_rank"] = index
-    return ranked[:limit]
+    selected = ranked[:limit]
+    if selected:
+        save_altcoin_universe(selected)
+    return selected
 
 
 def get_altcoin_market_data(symbol: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:

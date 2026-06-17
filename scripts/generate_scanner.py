@@ -110,14 +110,20 @@ def main() -> int:
 
     targets = ["altcoins", "stocks"] if args.type == "all" else [args.type]
     wrote = 0
+    failed = 0
     for target in targets:
         sleep_seconds = args.altcoin_sleep if target == "altcoins" else args.stock_sleep
-        output = (
-            generate_altcoins(args.limit, sleep_seconds)
-            if target == "altcoins"
-            else generate_stocks(args.limit, sleep_seconds)
-        )
         path = OUTPUTS[target]
+        try:
+            output = (
+                generate_altcoins(args.limit, sleep_seconds)
+                if target == "altcoins"
+                else generate_stocks(args.limit, sleep_seconds)
+            )
+        except Exception as exc:  # noqa: BLE001 - keep other scanner targets running.
+            failed += 1
+            print(f"[{target}] FATAL {exc}", file=sys.stderr)
+            continue
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
         print(

@@ -42,8 +42,12 @@ jobs:
       - name: Generate signals
         run: python scripts/generate_signals.py
 
-      - name: Generate scanner pages
-        run: python scripts/generate_scanner.py --type all --limit 200 --altcoin-sleep 0.15 --stock-sleep 0.6
+      - name: Generate stock scanner
+        run: python scripts/generate_scanner.py --type stocks --limit 200 --stock-sleep 0.6
+        timeout-minutes: 45
+
+      - name: Generate altcoin scanner
+        run: python scripts/generate_scanner.py --type altcoins --limit 200 --altcoin-sleep 0.2
         timeout-minutes: 90
         continue-on-error: true
 
